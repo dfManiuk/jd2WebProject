@@ -53,8 +53,8 @@
 				Количество страниц  <c:forEach var="counter" begin="0"	end="${Count}">
 						<c:if test="${counter != PageUsed }">
 							<form action="controller" method="post">
-								<input type="hidden" name="command"
-									value="show_all_patients" /> <input type="hidden"
+								<input type="hidden" name="command" 
+									value="patient_dischanged_list" /> <input type="hidden"
 									name="start" value="${counter}"> <input type="submit"
 									value="${counter + 1}">
 							</form>
@@ -67,7 +67,7 @@
 
 				<th>Вывести больных по:
 					<form class="transparent" action="controller" method="post">
-						<input type="hidden" name="command" value="show_all_patients" />
+						<input type="hidden" name="command" value="patient_dischanged_list" />
 						<input type="submit" name="delimeter" value="5"> 
 					 <input type="submit" name="delimeter" value="10">
 						 <input type="submit" name="delimeter" value="25">

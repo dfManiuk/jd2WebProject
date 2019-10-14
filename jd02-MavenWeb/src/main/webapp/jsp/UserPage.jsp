@@ -26,14 +26,31 @@ System.out.print(user.toString());
 <fmt:message bundle="${loc}" key="local.locbutton.find" var="button_find" />
 <fmt:message bundle="${loc}" key="local.locLine.patient.table.name" var="name" />
 <fmt:message bundle="${loc}" key="local.locbutton.exit" var="exit" />
-
-
+<fmt:message bundle="${loc}" key="local.locbutton.user.page.title" var="title" />
+<fmt:message bundle="${loc}" key="local.locbutton.user.page.home" var="home" />
+<fmt:message bundle="${loc}" key="local.locbutton.user.page.shtaff" var="staff" />
+<fmt:message bundle="${loc}" key="local.line.name" var="simple_name" />
+<fmt:message bundle="${loc}" key="local.locLine.user.page.personal.change" var="personal_change" />
+<fmt:message bundle="${loc}" key="local.locbutton.user.page.personal.assing" var="assing" />
+<fmt:message bundle="${loc}" key="local.locbutton.ok" var="ok" />
+<fmt:message bundle="${loc}" key="local.locLine.patient.date" var="birth_date" />
+<fmt:message bundle="${loc}" key="local.locLine.patient.location" var="location" />
+<fmt:message bundle="${loc}" key="local.locLine.patient.telephone" var="telephone" />
+<fmt:message bundle="${loc}" key="local.locLine.patient.choose" var="choose" />
+<fmt:message bundle="${loc}" key="local.locLine.patient.appointments" var="appointments" />
+<fmt:message bundle="${loc}" key="local.locLine.patient.leave" var="leave" />
+<fmt:message bundle="${loc}" key="local.locLine.patient.add" var="add" />
+<fmt:message bundle="${loc}" key="local.locLine.patient.pages" var="pages" />
+<fmt:message bundle="${loc}" key="local.locLine.patient.withdraw" var="withdraw" />
+<fmt:message bundle="${loc}" key="local.locLine.patient.perform" var="perform" />
+<fmt:message bundle="${loc}" key="local.locLine.patient.withdraw.simple" var="withdraw_simple" />
+<fmt:message bundle="${loc}" key="local.locLine.yes" var="yes" />
 
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Личная страница сотрудника</title>
+<title>${title}</title>
 <style>
    .b1 {
     border: 1px solid green;
@@ -68,15 +85,15 @@ System.out.print(user.toString());
 			<div class="right_header">
 				<div id="menu">
 					<ul>
-						<li><a class="current" href="#" title="">Домашняя</a></li>
+						<li><a class="current" href="#" title="">${home}</a></li>
 						<li>
 						<form id="formShowAllUsers" action="controller" method="post">
-								<a href="javascript:;" onclick="parentNode.submit();">Персонал</a>
+								<a href="javascript:;" onclick="parentNode.submit();">${staff}</a>
 								<input type="hidden" name="command" value="show_all_users" /> 
 							</form>
 						</li>
 						<li><form id="formShowAllUsers" action="controller" method="post">
-								<a href="javascript:;" onclick="parentNode.submit();">Пациенты</a>
+								<a href="javascript:;" onclick="parentNode.submit();">${patients}</a>
 								<input type="hidden" name="command" value="show_all_patients" /> 
 							</form></li>
 						<li><a href="Main.jsp" title="">${exit}</a></li>
@@ -113,7 +130,7 @@ System.out.print(user.toString());
 						<div id="patients_box">
 							<form action="controller" method="post">
 								<input type="hidden" name="command"
-									value="user_changer"> <input type="submit" value="Кадровые изминения">
+									value="user_changer"> <input type="submit" value="${personal_change}">
 							</form>
 						</div>
 						</td>
@@ -138,7 +155,7 @@ System.out.print(user.toString());
 						<div id="patients_box">
 							<form action="controller" method="post">
 								 <input type="hidden" name="command"
-									value="fixing"> <input type="submit" value="Закрепить врача за пациентом">
+									value="fixing"> <input type="submit" value="${assing}">
 							</form>
 						</div>
 						</td>
@@ -151,9 +168,9 @@ System.out.print(user.toString());
 					<td colspan="2" style="text-align: center">
 						<div id="patients_box">
 							<form action="controller" method="post">
-								Добавить нового пациента <input type="hidden" name="command"
+								${add} <input type="hidden" name="command"
 									value="add_new_patient"> <input type="submit"
-									value="Выполнить">
+									value="${ok}">
 							</form>
 						</div>
 				</c:if>
@@ -176,11 +193,11 @@ System.out.print(user.toString());
 			<c:if test="${Patients != null}">
 				<tr>
 					<th>${name}</th>
-					<th>Дата рождения</th>
-					<th>Место жительства</th>
-					<th>Телефон</th>
-					<th>Выбрать</th>
-					<th>Назначения</th>
+					<th>${birth_date}</th>
+					<th>${location}</th>
+					<th>${telephone}</th>
+					<th>${choose}</th>
+					<th>${appointments}</th>
 				</tr>
 			</c:if>
 			<c:forEach items="${Patients}" var="pt">
@@ -193,20 +210,20 @@ System.out.print(user.toString());
 					<td>
 						<form action="controller" method="post">
 							<select name="command">
-								<option value="medication">Назначения</option>
+								<option value="medication">${appointments}</option>
 								<!-- <option value="check_nurs" >Закрепить медсестру</option> -->
 								<c:if
 									test="${ (requestScope.User.position eq 'врач') || (requestScope.User.position eq 'заведующий')  }">
-									<option value="live">Выписать</option>
+									<option value="live">${leave}</option>
 								</c:if>
 							</select> <input type="hidden" name="name" value="${pt.passport}">
-							<input type="submit" value="Выполнить">
+							<input type="submit" value="${perform}">
 						</form>
 					</td>
 					<td>	
 									<c:forEach items="${requestScope.ListInteger}" var="intlist"  >
 									<c:if test="${pt.idPatient == intlist}">
-									 <c:out value="ДА"/>
+									 <c:out value="${yes}"/>
 									<%-- <c:out value="${pt.idPatient}"/>
 									<c:out value="${intlist}"/> --%>
 									</c:if>
@@ -215,7 +232,7 @@ System.out.print(user.toString());
 				</tr>
 			</c:forEach>
 			<c:if test="${Count != null}">
-				Количесвто страниц  <c:forEach var="counter" begin="0"	end="${Count}">
+				${pages}  <c:forEach var="counter" begin="0"	end="${Count}">
 						<c:if test="${counter != PageUsed }">
 							<form action="controller" method="post">
 								<input type="hidden" name="command"
@@ -230,11 +247,11 @@ System.out.print(user.toString());
 						</c:if>
 					</c:forEach>
 
-				<th>Вывести пациентов по:
+				<th>${withdraw}
 					<form class="transparent" action="controller" method="post">
 						<input type="hidden" name="command" value="find_patient_from_user" />
 						<input name="delimeter" name=""> <input type="submit"
-							value="Вывести">
+							value="${withdraw_simple}">
 					</form>
 				</th>
 

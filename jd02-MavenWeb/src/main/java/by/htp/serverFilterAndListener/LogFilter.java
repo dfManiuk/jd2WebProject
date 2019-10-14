@@ -36,8 +36,6 @@ public class LogFilter implements Filter{
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 
-		System.out.println(request.toString());
-
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
 		
@@ -63,7 +61,6 @@ public class LogFilter implements Filter{
             for(Cookie c: cookies) {
                 if(cookieName.equals(c.getName())) {
                     cookie = c;
-                    System.out.println(cookie.getValue());
                     break;
                     
                 }

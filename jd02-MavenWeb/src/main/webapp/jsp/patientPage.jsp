@@ -115,7 +115,7 @@
 					</c:if>
 					</td>
 					<td>
-					<c:if test= "${Medications.periodicity > 1 }">
+					<c:if test= "${ Medications.periodicity ne 1 or Medications.periodicity ne null }">
 					<form action="controller" name="command" method="post">
 					 <input type="hidden" name="command" value="medication_pereosity">
 							<input  type="hidden" name="medication" value="${medications}" />

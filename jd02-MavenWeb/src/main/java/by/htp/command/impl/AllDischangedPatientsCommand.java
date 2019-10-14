@@ -53,7 +53,6 @@ public class AllDischangedPatientsCommand implements ICommand {
 			Set<Patient> set = patientService.getAllPatientDischargedSet(start, delimeter);
 			
 			JSPSetBean jsp = new JSPSetBean(set);
-			System.out.println(set.toString() + "--- "+ jsp.toString());
 			
 			if (listDischangedPatients != null ) { 
 				Collections.sort(listDischangedPatients, new Comparator<Patient>() {
