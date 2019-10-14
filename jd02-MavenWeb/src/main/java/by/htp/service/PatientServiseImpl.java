@@ -2,6 +2,8 @@ package by.htp.service;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Set;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import by.htp.dao.DAOException;
@@ -433,6 +435,20 @@ public class PatientServiseImpl implements PatientService{
 			logger.error(e.toString());
 		}
 		return list;
+	}
+
+	@Override
+	public Set<Patient> getAllPatientDischargedSet(int start, int delimeter) throws ServiceException {
+		Set<Patient> set = null;
+		DAOProvider provider = DAOProvider.getInstance();
+		PatientDAO patientDAO = provider.getPatientDAO();
+		try {
+			set = patientDAO.getAllPatientDischargedSet(start, delimeter);
+		} catch (DAOException e) {
+			e.printStackTrace();
+			logger.error(e.toString());
+		}
+		return set;
 	}
 
 	

@@ -51,10 +51,6 @@ public class AllPatientsCommand implements ICommand {
 			
 			List<Patient> list = patientService.giveAllPatientsLimit(start, delimeter);
 			
-			System.out.println("start^ "+ start);
-			System.out.println("delimeter^ "+ delimeter + " delim " + delim);
-			System.out.println("Количество пациентов " + countPatientsTableLine);
-			
 			if (list != null ) { 
 				
 				Collections.sort(list, new Comparator<Patient>() {

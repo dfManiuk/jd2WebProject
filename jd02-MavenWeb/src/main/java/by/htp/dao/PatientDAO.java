@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
+
 import by.htp.entity.Card;
 import by.htp.entity.Medication;
 import by.htp.entity.Patient;
@@ -87,4 +89,6 @@ public interface PatientDAO {
 	 ArrayList<Patient> getAllPatientDischarged() throws DAOException;
 
 	ArrayList<Patient> getAllPatientLimit(int start, int delimeter)throws DAOException;
+	
+	Set<Patient> getAllPatientDischargedSet(int start, int delimeter) throws DAOException;
 }

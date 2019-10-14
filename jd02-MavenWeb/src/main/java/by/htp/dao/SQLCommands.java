@@ -72,5 +72,6 @@ public class SQLCommands {
 	public static final String FIND_ALL_USERS_TO_LEAVE = "SELECT * FROM user JOIN specialization ON user.idspecialization = specialization.idspecialization WHERE user.out is false;";
 	public static final String FIND_ALL_PATIENT_DISCHANGED = "SELECT * FROM hospital.patient WHERE patient.out is false ;";
 	public static final String FIND_ALL_PATIENT_LIMIT = "SELECT * FROM hospital.patient WHERE patient.out is true LIMIT ? , ? ;";
+	public static final String FIND_ALL_PATIENT_DISCHANGED_LIMIT = "SELECT * FROM hospital.patient WHERE patient.out is false LIMIT ? , ? ;";
 }
 

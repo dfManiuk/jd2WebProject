@@ -15,6 +15,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
 import javax.imageio.ImageIO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -1315,6 +1317,48 @@ public class DBPatientDAO implements PatientDAO {
 			cPool.closeConnection(con, stInsert, rs);
 		}
 		return list;
+	}
+
+	@Override
+	public Set<Patient> getAllPatientDischargedSet(int start, int delimeter) throws DAOException {
+		Set<Patient> set = null;
+		ConnectionPool cPool = ConnectionPool.getInstance();
+		String sqlString = SQLCommands.FIND_ALL_PATIENT_DISCHANGED_LIMIT;
+		Connection con = null;
+		Patient patient;
+		PreparedStatement stInsert = null;
+		ResultSet rs = null;
+
+		try {
+			set = new HashSet<Patient>();
+			con = cPool.takeConnection();
+			stInsert = con.prepareStatement(sqlString);
+			stInsert.setInt(1, start);
+			stInsert.setInt(2, delimeter);
+			rs = stInsert.executeQuery();
+
+			while (rs.next()) {
+				patient = new Patient();
+				patient.setIdPatient(rs.getInt(1));
+				patient.setName(rs.getString(2));
+				patient.setPassport(rs.getString(3));
+				patient.setData(rs.getString(4));
+				patient.setAdress(rs.getString(5));
+				patient.setTelephone(rs.getString(6));
+				set.add(patient);
+			}
+
+			return set;
+		} catch (SQLException e) {
+			logger.error(e.toString());
+			e.printStackTrace();
+		} catch (ConnectionPoolException e) {
+			logger.error(e.toString());
+			e.printStackTrace();
+		} finally {
+			cPool.closeConnection(con, stInsert, rs);
+		}
+		return set;
 	}	
 }
 

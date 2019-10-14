@@ -52,15 +52,14 @@ public class FindPatientFromUser implements ICommand {
 		
 		try {
 		
-			System.out.println("start^ "+ start);
-			System.out.println("delimeter^ "+ delimeter + " delim " + delim);
+			//System.out.println("start^ "+ start);
+			//System.out.println("delimeter^ "+ delimeter + " delim " + delim);
 			
 			if (user.getPosition().equalsIgnoreCase("Врач")) {
 				countPatientsTableLine = service.countOfPatientsForUser(user);
 				list = service.findUserFromPatient(user, start, delimeter);
 				listInt = service.findUserFromPatientWithNotCheckMedication(user.getId(), start, delimeter);
 		
-
 			} else if (user.getPosition().equalsIgnoreCase("медсестра")) {
 				list = service.findUserFromPatientForNurse(start, delimeter);
 				countPatientsTableLine = service.countOfPatients();
@@ -71,9 +70,6 @@ public class FindPatientFromUser implements ICommand {
 				list = service.findUserFromPatient(user, start, delimeter);
 				listInt = service.findUserFromPatientWithNotCheckMedication(user.getId(), start, delimeter);
 			}
-
-			System.out.println("Количество пациентов " + countPatientsTableLine);
-			
 			
 			if (list.size() !=0 ) { 
 				

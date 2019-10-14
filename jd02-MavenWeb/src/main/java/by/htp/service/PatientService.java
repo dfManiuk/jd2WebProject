@@ -2,6 +2,8 @@ package by.htp.service;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Set;
+
 import by.htp.entity.Card;
 import by.htp.entity.Medication;
 import by.htp.entity.Patient;
@@ -71,4 +73,6 @@ public interface PatientService {
 	ArrayList<Patient> getAllPatientDischarged() throws ServiceException;
 	
 	ArrayList<Patient> giveAllPatientsLimit(int start, int delimeter) throws ServiceException;
+	
+	Set<Patient> getAllPatientDischargedSet(int start, int delimeter) throws ServiceException;
 }

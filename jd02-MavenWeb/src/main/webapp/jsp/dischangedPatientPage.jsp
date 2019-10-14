@@ -3,6 +3,7 @@
 <%@page import="java.util.ArrayList"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="/WEB-INF/tld/taglib.tld" prefix="mytag"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -45,5 +46,44 @@
 			</tr>
 		</c:forEach>
 	</table>
+	
+	<table class="b1">
+		<thead>
+		<c:if test="${Count != null}">
+				Количество страниц  <c:forEach var="counter" begin="0"	end="${Count}">
+						<c:if test="${counter != PageUsed }">
+							<form action="controller" method="post">
+								<input type="hidden" name="command"
+									value="show_all_patients" /> <input type="hidden"
+									name="start" value="${counter}"> <input type="submit"
+									value="${counter + 1}">
+							</form>
+						</c:if>
+						<c:if test="${counter == PageUsed }">
+							<font color=red> <c:out value="${counter + 1}" />
+							</font>
+						</c:if>
+					</c:forEach>
+
+				<th>Вывести больных по:
+					<form class="transparent" action="controller" method="post">
+						<input type="hidden" name="command" value="show_all_patients" />
+						<input type="submit" name="delimeter" value="5"> 
+					 <input type="submit" name="delimeter" value="10">
+						 <input type="submit" name="delimeter" value="25">
+					</form>
+				</th>
+
+			</c:if>
+	</table>
+		
+		<h4>  Количество выписанных пациентов   </h4>
+		<mytag:jspset set="${userbean}"/>
+		
+		<h4>  Выписанные пациенты    </h4>
+		<mytag:bodyjspset num="${userbean.size }" >
+			${userbean.element}
+		</mytag:bodyjspset>
+	
 </body>
 </html>
