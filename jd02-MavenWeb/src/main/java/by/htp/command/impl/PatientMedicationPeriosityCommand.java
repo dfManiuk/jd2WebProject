@@ -57,7 +57,7 @@ public class PatientMedicationPeriosityCommand implements ICommand {
 							
 			request.setAttribute("Patient", patient);
 			request.setAttribute("Medications", medication);	
-			request.setAttribute("PeriosityChange", patient.getIdPatient());	
+			request.setAttribute("PeriosityChange", userMedi);	
 				
 			page = JspPageName.PATIENT_PAGE;
 			

@@ -1,10 +1,7 @@
 package by.htp.service;
 
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.Date;
-
 import by.htp.entity.Card;
 import by.htp.entity.Medication;
 import by.htp.entity.Patient;
@@ -70,4 +67,8 @@ public interface PatientService {
 	void addMedicationPeriosity(Medication medication) throws ServiceException;
 	
 	void updateMedicationPeriod(String medication, int idPatient, int idUser)throws ServiceException;
+	
+	ArrayList<Patient> getAllPatientDischarged() throws ServiceException;
+	
+	ArrayList<Patient> giveAllPatientsLimit(int start, int delimeter) throws ServiceException;
 }

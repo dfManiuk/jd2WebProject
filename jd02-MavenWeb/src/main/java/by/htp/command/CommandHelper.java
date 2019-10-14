@@ -5,7 +5,10 @@ import java.util.Map;
 import by.htp.command.impl.AddMedicationCommand;
 import by.htp.command.impl.AddNewPatientCommand;
 import by.htp.command.impl.AddPhotoCommand;
+import by.htp.command.impl.AllDischangedPatientsCommand;
+import by.htp.command.impl.AllDissmisedUsersCommand;
 import by.htp.command.impl.AllMedicationCommand;
+import by.htp.command.impl.AllPatientsCommand;
 import by.htp.command.impl.BackUserPageCommand;
 import by.htp.command.impl.DelMedicationCommand;
 import by.htp.command.impl.EditMedicationCommand;
@@ -20,6 +23,7 @@ import by.htp.command.impl.PatientMedicationPeriosityCommand;
 import by.htp.command.impl.PatientOutOffCommand;
 import by.htp.command.impl.PatientRightOutCommand;
 import by.htp.command.impl.PatientUnFixingCommand;
+import by.htp.command.impl.ShowAllUsersCommand;
 import by.htp.command.impl.UserChangerCommand;
 import by.htp.command.impl.UserDismissalCommand;
 import by.htp.command.impl.UserEditProfile;
@@ -57,6 +61,10 @@ public class CommandHelper {
 		commands.put(CommandName.DISMISSAL, new UserDismissalCommand());
 		commands.put(CommandName.ADD_MEDICATION_PERIOD, new UserMedicalPeriodCommand());
 		commands.put(CommandName.MEDICATION_PEREOSITY, new PatientMedicationPeriosityCommand());
+		commands.put(CommandName.SHOW_ALL_USERS, new ShowAllUsersCommand());
+		commands.put(CommandName.USER_DISSMISAL_LIST, new AllDissmisedUsersCommand());
+		commands.put(CommandName.SHOW_ALL_PATIENTS, new AllPatientsCommand());
+		commands.put(CommandName.PATIENT_DISCHANGED_LIST, new AllDischangedPatientsCommand());
 		
 		commandsF.put(CommandName.ADD_PHOTO, new AddPhotoCommand());
 		

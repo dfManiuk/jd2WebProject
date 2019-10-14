@@ -7,6 +7,7 @@ import java.util.List;
 import by.htp.entity.Doctor;
 import by.htp.entity.Patient;
 import by.htp.entity.User;
+import by.htp.service.ServiceException;
 
 public interface UserDAO {
 
@@ -29,4 +30,6 @@ public interface UserDAO {
 	 void updateUserOutOf(int userId)throws DAOException;
 	 
 	 Date currentTimestamp() throws DAOException;
+	 
+	 ArrayList<Doctor> findListOfLeaveUser()throws DAOException;
 }		

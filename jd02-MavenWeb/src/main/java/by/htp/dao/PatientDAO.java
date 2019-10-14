@@ -83,4 +83,8 @@ public interface PatientDAO {
 	void updateMedicationTimeLost(Date data,String medication, int idPatient) throws DAOException;
 	
 	void updateMedicationPeriod(String medication, int idPatient, int idUser) throws DAOException;
+	
+	 ArrayList<Patient> getAllPatientDischarged() throws DAOException;
+
+	ArrayList<Patient> getAllPatientLimit(int start, int delimeter)throws DAOException;
 }

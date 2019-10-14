@@ -110,17 +110,19 @@
 				<tr>
 					<td>
 					<c:out value="${medications}" />
-					<c:if test= "${PeriosityChange == Patient.idPatient }">
+					<c:if test= "${PeriosityChange eq medications }">
 					<c:out value="(последний прием)" />
 					</c:if>
 					</td>
 					<td>
+					<c:if test= "${Medications.periodicity > 1 }">
 					<form action="controller" name="command" method="post">
 					 <input type="hidden" name="command" value="medication_pereosity">
 							<input  type="hidden" name="medication" value="${medications}" />
 							<input type="hidden" name="patient" value="${Patient.passport}" />
 							<input type="submit" value="Завершить прием лекарства">
 						</form>
+						</c:if>
 						<form action="controller" method="post">
 							<select name="command">
 								<option value="edit_medication">Выполненно</option>

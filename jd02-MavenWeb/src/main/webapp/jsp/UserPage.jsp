@@ -42,7 +42,6 @@ System.out.print(user.toString());
    td {
     text-align: center; 
    }
-   }
   </style>
 <link rel="stylesheet" type="text/css" href="css/styleAccaunt.css"
 	media="screen" />
@@ -70,8 +69,16 @@ System.out.print(user.toString());
 				<div id="menu">
 					<ul>
 						<li><a class="current" href="#" title="">Домашняя</a></li>
-						<li><a href="#" title="">Персонал</a></li>
-						<li><a href="#" title="">Пациенты</a></li>
+						<li>
+						<form id="formShowAllUsers" action="controller" method="post">
+								<a href="javascript:;" onclick="parentNode.submit();">Персонал</a>
+								<input type="hidden" name="command" value="show_all_users" /> 
+							</form>
+						</li>
+						<li><form id="formShowAllUsers" action="controller" method="post">
+								<a href="javascript:;" onclick="parentNode.submit();">Пациенты</a>
+								<input type="hidden" name="command" value="show_all_patients" /> 
+							</form></li>
 						<li><a href="Main.jsp" title="">${exit}</a></li>
 					</ul>
 				</div>
@@ -110,11 +117,8 @@ System.out.print(user.toString());
 							</form>
 						</div>
 						</td>
-
 				</c:if>
-
-			</tr>
-			
+			</tr>			
 			
 			<jsp:useBean id="User" class="by.htp.entity.User" scope="request" />
 			<jsp:getProperty property="position" name="User" />

@@ -49,8 +49,6 @@ public class Controller extends HttpServlet {
 		String commandName;
 		if ((commandName = request.getParameter(RequestParameterName.COMMAND_NAME)) != null) {
 
-			System.out.println(commandName);
-
 			ICommand command = CommandHelper.getInstance().getCommand(commandName);
 			command.execute(request, response);
 		} else {

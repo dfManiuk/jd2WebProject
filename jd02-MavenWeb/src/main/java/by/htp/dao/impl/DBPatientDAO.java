@@ -10,7 +10,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -1215,7 +1214,7 @@ public class DBPatientDAO implements PatientDAO {
 		PreparedStatement stInsert = null;
 		String sqlString = SQLCommands.UPDATE_MEDICATION_REDIOD;
 		try {		
-
+			medication.trim();
 			System.out.println(medication);
 			
 			con =  cPool.takeConnection();
@@ -1234,6 +1233,88 @@ public class DBPatientDAO implements PatientDAO {
 			cPool.closeConnection(con, stInsert);
 		}		
 		
+	}
+
+	@Override
+	public ArrayList<Patient> getAllPatientDischarged() throws DAOException {
+		ArrayList<Patient> list = null;
+		ConnectionPool cPool = ConnectionPool.getInstance();
+		String sqlString = SQLCommands.FIND_ALL_PATIENT_DISCHANGED;
+		Connection con = null;
+		Patient patient;
+		PreparedStatement stInsert = null;
+		ResultSet rs = null;
+
+		try {
+			list = new ArrayList<Patient>();
+			con = cPool.takeConnection();
+			stInsert = con.prepareStatement(sqlString);
+			rs = stInsert.executeQuery();
+
+			while (rs.next()) {
+				patient = new Patient();
+				patient.setIdPatient(rs.getInt(1));
+				patient.setName(rs.getString(2));
+				patient.setPassport(rs.getString(3));
+				patient.setData(rs.getString(4));
+				patient.setAdress(rs.getString(5));
+				patient.setTelephone(rs.getString(6));
+				list.add(patient);
+			}
+
+			return list;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			logger.error(e.toString());
+		} catch (ConnectionPoolException e) {
+			e.printStackTrace();
+			logger.error(e.toString());
+		} finally {
+			cPool.closeConnection(con, stInsert, rs);
+		}
+		return list;
+	}
+
+	@Override
+	public ArrayList<Patient> getAllPatientLimit(int start, int delimeter) throws DAOException {
+		ArrayList<Patient> list = null;
+		ConnectionPool cPool = ConnectionPool.getInstance();
+		String sqlString = SQLCommands.FIND_ALL_PATIENT_LIMIT;
+		Connection con = null;
+		Patient patient;
+		PreparedStatement stInsert = null;
+		ResultSet rs = null;
+
+		try {
+			list = new ArrayList<Patient>();
+			con = cPool.takeConnection();
+			stInsert = con.prepareStatement(sqlString);
+			stInsert.setInt(1, start);
+			stInsert.setInt(2, delimeter);
+			rs = stInsert.executeQuery();
+
+			while (rs.next()) {
+				patient = new Patient();
+				patient.setIdPatient(rs.getInt(1));
+				patient.setName(rs.getString(2));
+				patient.setPassport(rs.getString(3));
+				patient.setData(rs.getString(4));
+				patient.setAdress(rs.getString(5));
+				patient.setTelephone(rs.getString(6));
+				list.add(patient);
+			}
+
+			return list;
+		} catch (SQLException e) {
+			logger.error(e.toString());
+			e.printStackTrace();
+		} catch (ConnectionPoolException e) {
+			logger.error(e.toString());
+			e.printStackTrace();
+		} finally {
+			cPool.closeConnection(con, stInsert, rs);
+		}
+		return list;
 	}	
 }
 

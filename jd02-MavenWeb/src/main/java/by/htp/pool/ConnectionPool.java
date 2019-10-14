@@ -22,8 +22,13 @@ import java.util.Properties;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Executor;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-public final class ConnectionPool {
+
+public final class ConnectionPool  {
+	
+	private static final Logger logger = LogManager.getLogger(ConnectionPool.class.getName());	
 	
 	private final static ConnectionPool instance = new ConnectionPool();
 	
@@ -54,7 +59,7 @@ public final class ConnectionPool {
 		try {
 			initPoolData();
 		} catch (ConnectionPoolException e) {
-			// TODO Auto-generated catch block
+			logger.error(e.toString());
 			e.printStackTrace();
 		}
 	}
@@ -69,20 +74,26 @@ public final class ConnectionPool {
 				connectingQueue.add(pooledConnection);
 			}
 		} catch (SQLException e) {
+			logger.error(e.toString());
 			throw new ConnectionPoolException("SQLExeption in ConnectionPool", e);
 		} catch (ClassNotFoundException e) {
 			throw new ConnectionPoolException("Can't find database driver class", e);
 		}
 	}
-	public void dispose() {
-		clearConnectionQueue();
+	public void dispose() throws ConnectionPoolException {
+		try {
+			clearConnectionQueue();
+		} catch (ConnectionPoolException e) {
+			throw new ConnectionPoolException("Error connecting to the database sourse -> Queue clear error. ", e);
+
+		}
 	}
-	private void clearConnectionQueue(){
+	private void clearConnectionQueue() throws ConnectionPoolException{
 		try {
 			closeConnectionQueue(givenAwayConQueue);
 			closeConnectionQueue(connectingQueue);
 	} catch (SQLException e) {
-		// TODO  "Error closing the connection.", e)
+		throw new ConnectionPoolException("Error connecting to the database sourse -> Queue error. ", e);
 	}
 }
 	public Connection takeConnection() throws ConnectionPoolException {
@@ -95,7 +106,7 @@ public final class ConnectionPool {
 		}
 		return connection;
 	}
-	public void relise(Connection con) {
+	public void relise(Connection con) throws ConnectionPoolException {
 		try {
 			if (con!=null) {
 				con.setAutoCommit(true);
@@ -106,7 +117,7 @@ public final class ConnectionPool {
 			}
 			
 		} catch (SQLException e) {
-			// TODO: handle exception
+			throw new ConnectionPoolException("Error connecting to the database sourse. ", e);
 		}
 	}
 	public void closeConnection(Connection con, Statement st, ResultSet rs) {
@@ -123,7 +134,7 @@ public final class ConnectionPool {
 		}
 		try {
 			st.close();
-		} catch (Exception e) {
+		} catch (SQLException e) {
 			// TODO "Statement isn't closed")
 		}
 	}

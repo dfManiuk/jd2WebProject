@@ -46,7 +46,6 @@ public class UserRegistration implements ICommand {
 	
 	try {
 		newUser = userService.registration(newUser);
-		System.out.println(newUser.toString());
 		
 		if (newUser != null && newUser.getId() != 0) {
 			session = request.getSession();
@@ -68,9 +67,9 @@ public class UserRegistration implements ICommand {
 		
 	
 	} catch (ServiceException e) {
-		// TODO Auto-generated catch block
+		
 		e.printStackTrace();
-	}
+	} 
 	
 	return page;
 }

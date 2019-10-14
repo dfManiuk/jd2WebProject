@@ -11,10 +11,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
 import by.htp.dao.DAOException;
 import by.htp.dao.SQLCommands;
 import by.htp.dao.UserDAO;
@@ -29,11 +27,9 @@ public class DBUserDAO implements UserDAO {
 	private static final Logger logger = LogManager.getLogger(DBPatientDAO.class.getName());	
 	
 	@Override
-	public User autorization(String login, String password) {
+	public User autorization(String login, String password) throws DAOException  {
 		
 		User user = null;
-		
-		System.out.println(login +" " + password);
 		Connection con=null;
 		PreparedStatement st=null;
 		ResultSet rs=null;
@@ -59,31 +55,25 @@ public class DBUserDAO implements UserDAO {
 				user.setLogin(rs.getString(5));
 				user.setPassword(rs.getString(6));
 	    	}
-//				if (!user.getPassword().equals(password)) {
-//					System.out.println("The password wrong!");
-//				} else {
-//					System.out.println("ok" + user.toString());
-//				}
-
 				 return user;
 			
 		} catch (SQLException e) {
 			logger.error(e.toString());
 			e.printStackTrace();
+			throw new DAOException(e);
 		} catch (ConnectionPoolException e) {
 			logger.error(e.toString());
 			e.printStackTrace();
+			throw new DAOException(e);
 		} finally {
 			cPool.closeConnection( con, st, rs);
 		}
-		return user;
+		//return user;
 	}
 
 	@Override
-	public User registration(User newUser) {
-		
-		System.out.println(newUser.toString());
-		
+	public User registration(User newUser) throws DAOException  {
+				
 		String login = newUser.getLogin();
 		String password = newUser.getPassword(); 
 		String name = newUser.getName();
@@ -112,23 +102,21 @@ public class DBUserDAO implements UserDAO {
 			stInsert.setInt(3, idSpecialization);
 			stInsert.setString(4, login);
 			stInsert.setString(5, password);
-			stInsert.executeUpdate();
-			
-			
+			stInsert.executeUpdate();	
 			
 		} catch (ConnectionPoolException e) {
 			logger.error(e.toString());
 			e.printStackTrace();
+			throw new DAOException(e);
 		} catch (SQLException e) {
 			logger.error(e.toString());
 			e.printStackTrace();
-			System.out.println(e.toString());
+			throw new DAOException(e);
 		} finally {
 			cPool.closeConnection(con, st, rs);
 		}
 		return newUser; 
-		
-		
+				
 	}
 
 	@Override
@@ -171,14 +159,11 @@ public class DBUserDAO implements UserDAO {
 		PreparedStatement stIn = null;
 				
 		ConnectionPool cPool = ConnectionPool.getInstance();
-	
 		
 	    try {
 	    
 	    	String sql = SQLCommands.USER_EDIT_PROFILE;
-	    	System.out.println(sql);
 	    	con = cPool.takeConnection();
-	    	System.out.println(con);
 	    	stIn = con.prepareStatement(sql);
 	  
 			stIn.setString(1, user.getPosition());
@@ -187,12 +172,8 @@ public class DBUserDAO implements UserDAO {
 			stIn.setString(4, user.getSpecialization());
 			stIn.setInt(5, user.getId());
 			
-			System.out.println(stIn);
 			stIn.executeUpdate();
-			
-			System.out.println(user.toString());
-			
-	    
+							    
 		} catch (SQLException e) {
 			logger.error(e.toString());
 			e.printStackTrace();
@@ -204,12 +185,17 @@ public class DBUserDAO implements UserDAO {
 		}
 	    String login = user.getLogin();
 	    String password = user.getPassword();
-	    
-	    System.out.println(user.toString());
-	    user = autorization(login, password);
+	 
+			try {
+				user = autorization(login, password);
+			} catch (DAOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				logger.error(e.toString());
 		} 
+	    }
 		return user;
-			
+	    	
 	}
 
 	@Override
@@ -232,7 +218,7 @@ public class DBUserDAO implements UserDAO {
 				doctor.setId(rs.getInt(1));
 				doctor.setName(rs.getString(2));
 				doctor.setPosition( rs.getString(3));
-				doctor.setSpecialization(rs.getString(8));
+				doctor.setSpecialization(rs.getString(9));
 		
 				doctor.setPatients(findPatientsFromUser(doctor));
 				
@@ -391,7 +377,42 @@ public class DBUserDAO implements UserDAO {
 			cPool.closeConnection(con, st, rs);
 	}
 		return date;	
-}	
+}
+
+	@Override
+	public ArrayList<Doctor> findListOfLeaveUser() throws DAOException {
+		ConnectionPool cPool = ConnectionPool.getInstance();
+		
+		Connection con = null;
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		Doctor doctor = null;
+		ArrayList<Doctor> list = null;
+		try {
+			String sql =SQLCommands.FIND_ALL_USERS_TO_LEAVE;
+			con = cPool.takeConnection();
+			st = con.prepareStatement(sql);
+			rs = st.executeQuery();
+			list = new ArrayList<Doctor>();
+			while(rs.next()){
+				doctor = new Doctor();
+				doctor.setId(rs.getInt(1));
+				doctor.setName(rs.getString(2));
+				doctor.setPosition( rs.getString(3));
+				doctor.setSpecialization(rs.getString(9));				
+				list.add(doctor);
+			}
+			
+			return list;
+		} catch (Exception e) {
+			logger.error(e.toString());
+			e.printStackTrace();
+		} 	finally {
+			cPool.closeConnection(con, st, rs);
+		}	
+		
+		return list;	
+	}	
 }
 
 

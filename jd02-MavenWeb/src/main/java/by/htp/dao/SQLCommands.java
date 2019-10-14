@@ -21,14 +21,14 @@ public class SQLCommands {
 	public static final String PATIENT_FIND_FROM_NAME = "SELECT idpatient FROM hospital.patient WHERE firast_last_name LIKE  ? AND patient.out is true;";
 	public static final String USER_HAS_PATIENT = "INSERT INTO user_has_patient(user_iduser, patient_idpatient ) VALUES (?, ?);";
 	public static final String USER_HAS_PATIENT_UNFIX = "delete FROM user_has_patient WHERE user_iduser = ? AND patient_idpatient = ? ;";
-	public static final String USER_LOGINATION = "SELECT user.iduser, user.userName, user.userPosition, specialization.specialization, user.login, user.password FROM hospital.user LEFT JOIN specialization ON user.idspecialization = specialization.idspecialization WHERE user.password  LIKE ? AND user.login LIKE ? AND user.out is true;";
+	public static final String USER_LOGINATION = "SELECT user.iduser, user.userName, user.userPosition, specialization.specialization, user.login, user.password FROM user LEFT JOIN specialization ON user.idspecialization = specialization.idspecialization WHERE user.password  LIKE ? AND user.login LIKE ? AND user.out is true;";
 	public static final String USER_REGISTRATION = "SELECT idspecialization FROM specialization WHERE specialization LIKE ?";
 	public static final String USER_REGISTRATION_INSERT = "INSERT INTO user (userName, userPosition, idspecialization, login, password) "
 			+ "VALUES (?,?,?,?,?)";
 	public static final String FIND_USER_FROM_NAME = "SELECT iduser FROM hospital.user WHERE userName LIKE ? AND user.out is true";
 	public static final String SET_MEDICATION = "UPDATE hospital.medication SET medication.procedure = ? , medication.medication = ?, medication.operation = ? WHERE medication.idpatient = ? ;";
 
-	public static final String COUNTS_OF_PATIENT = "SELECT COUNT(*) FROM hospital.patient WHERE patient.firast_last_name LIKE  ?  or patient.passport LIKE  ? or patient.birth LIKE  ?  or patient.adress LIKE  ?  or patient.telephone = ? ;";
+	public static final String COUNTS_OF_PATIENT = "SELECT COUNT(*) FROM hospital.patient WHERE patient.firast_last_name LIKE  ?  or patient.passport LIKE  ? or patient.birth LIKE  ?  or patient.adress LIKE  ?  or patient.telephone = ? AND patient.out is true;";
 	public static final String COUNTS_OF_PATIENT_MEDICATIONS = "SELECT COUNT(*) FROM hospital.patient, hospital.medication WHERE hospital.patient.idpatient = hospital.medication.idpatient AND (SELECT medication.medication LIKE  ? or medication.operation LIKE  ? or medication.procedure LIKE ?);";
 	public static final String PATIENT_FIND_FROM_MEDICATION = "SELECT * FROM hospital.patient, hospital.medication, hospital.card "
 			+ "WHERE hospital.patient.idpatient = hospital.medication.idpatient AND hospital.patient.idpatient = hospital.card.idpatient AND "
@@ -43,7 +43,7 @@ public class SQLCommands {
 	public static final String UPDATE_OPERATIONS = "UPDATE medication SET medication.operation = '<CHANGE> (выполненно)' WHERE medication.idPatient = ? AND medication.idUser = ? AND medication.operation = '<CHANGE>' ;";
 	public static final String DEL_MEDICATIONS = "DELETE FROM medication WHERE medication.idPatient = ? AND medication.idUser = ? AND medication.<CHANGE> = ? ;";
 	public static final String ADD_MEDICATIONS = "INSERT INTO medication VALUES (? , ? , ? , ? , ?, current_timestamp(), 0);";
-	public static final String FIND_USER = "SELECT * FROM hospital.user JOIN hospital.specialization ON user.idspecialization = specialization.idspecialization WHERE user.out is true;";
+	public static final String FIND_USER = "SELECT * FROM user JOIN specialization ON user.idspecialization = specialization.idspecialization WHERE user.out is true;";
 	public static final String FIND_ALL_PATIENT = "SELECT * FROM hospital.patient WHERE patient.out is true ;";
 	public static final String NURS_UPDATE_MEDICATION = "UPDATE medication SET medication.procedure = '<CHANGE>(выполненно)' WHERE medication.idPatient = ? AND medication.procedure = '<CHANGE>' ;";
 	public static final String COUNT_OF_PATIENT = "SELECT count(*) FROM hospital.patient WHERE patient.out is true;";
@@ -69,5 +69,8 @@ public class SQLCommands {
 	public static final String CURRENT_TIMESTAMP = "SELECT current_timestamp();";
 	public static final String UPDATE_MEDICATION_WHERE_TIME_LOST = "UPDATE hospital.medication SET medication = REPLACE(medication, '(выполненно)', '') WHERE idPatient = ? AND medication = ? ;";
 	public static final String UPDATE_MEDICATION_REDIOD = "UPDATE hospital.medication SET medication_per = 1  WHERE idPatient = ? AND idUser = ? AND medication  = ? ;";
+	public static final String FIND_ALL_USERS_TO_LEAVE = "SELECT * FROM user JOIN specialization ON user.idspecialization = specialization.idspecialization WHERE user.out is false;";
+	public static final String FIND_ALL_PATIENT_DISCHANGED = "SELECT * FROM hospital.patient WHERE patient.out is false ;";
+	public static final String FIND_ALL_PATIENT_LIMIT = "SELECT * FROM hospital.patient WHERE patient.out is true LIMIT ? , ? ;";
 }
 

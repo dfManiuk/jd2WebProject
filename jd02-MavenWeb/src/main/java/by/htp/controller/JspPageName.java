@@ -18,5 +18,7 @@ public class JspPageName {
 	public static final String DISCHANGE_PAGE = "jsp/dischangePage.jsp";
 	public static final String RIGHT_OUT_PAGE  = "jsp/rightOutPage.jsp";
 	public static final String USER_CHANGER_PAGE  = "jsp/userOutPage.jsp";
-	
+	public static final String ALL_USER_PAGE  = "jsp/allUserPage.jsp";
+	public static final String ALL_PATIENT_PAGE  = "jsp/allPatientPage.jsp";
+	public static final String ALL_PATIENT_DISCHANGED_PAGE  = "jsp/dischangedPatientPage.jsp";
 }

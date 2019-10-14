@@ -20,4 +20,6 @@ public interface UserService {
 	int findUserfromPatient(int idPatient) throws ServiceException;
 	
 	void updateUserOutOf(int userId) throws ServiceException;
+	
+	List<Doctor> findAllDoctorsToLeave( ) throws ServiceException;
 }

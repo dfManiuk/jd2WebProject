@@ -2,12 +2,8 @@ package by.htp.service;
 
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Date;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.omg.PortableServer.ID_ASSIGNMENT_POLICY_ID;
-
 import by.htp.dao.DAOException;
 import by.htp.dao.DAOProvider;
 import by.htp.dao.PatientDAO;
@@ -409,6 +405,34 @@ public class PatientServiseImpl implements PatientService{
 			logger.error(e.toString());
 		}
 		
+	}
+
+	@Override
+	public ArrayList<Patient> getAllPatientDischarged() throws ServiceException {
+		ArrayList<Patient> list = null;
+		DAOProvider provider = DAOProvider.getInstance();
+		PatientDAO patientDAO = provider.getPatientDAO();
+		try {
+			list = patientDAO.getAllPatientDischarged();
+		} catch (DAOException e) {
+			e.printStackTrace();
+			logger.error(e.toString());
+		}
+		return list;
+	}
+
+	@Override
+	public ArrayList<Patient> giveAllPatientsLimit(int start, int delimeter) throws ServiceException {
+		ArrayList<Patient> list = null;
+		DAOProvider provider = DAOProvider.getInstance();
+		PatientDAO patientDAO = provider.getPatientDAO();
+		try {
+			list = patientDAO.getAllPatientLimit(start, delimeter  );
+		} catch (DAOException e) {
+			e.printStackTrace();
+			logger.error(e.toString());
+		}
+		return list;
 	}
 
 	

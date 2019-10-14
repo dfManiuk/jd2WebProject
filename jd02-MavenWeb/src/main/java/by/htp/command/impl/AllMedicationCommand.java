@@ -28,8 +28,7 @@ public class AllMedicationCommand implements ICommand {
 		patient = (Patient) session.getAttribute("Patient");
 
 		medication = new Medication();
-		
-		
+				
 		try {
 			medication = patientService.getPatientMedications(patient);
 			
@@ -53,8 +52,7 @@ public class AllMedicationCommand implements ICommand {
 //				    System.out.println("Value: " + value.toString().replace("[", "").replace("]", ""));
 //				}
 				
-				
-				
+			
 				request.setAttribute("Patient", patient);
 				request.setAttribute("Medications", medication);
 				

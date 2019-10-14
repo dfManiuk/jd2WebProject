@@ -22,7 +22,6 @@ public class AddNewPatientCommand implements ICommand {
 			
 		Patient patient = new Patient();
 		
-		
 		patient.setName(request.getParameter("bigName"));
 		patient.setPassport(request.getParameter("passportNumber"));
 		patient.setData(request.getParameter("dataOfBirth"));
@@ -42,9 +41,7 @@ public class AddNewPatientCommand implements ICommand {
 			HttpSession session = request.getSession();
 			User user = (User) session.getAttribute("UserSession");
 			request.setAttribute("User", user);
-			
-			System.out.println(user.toString());
-			
+					
 			request.getRequestDispatcher(JspPageName.USER_PAGE).forward(request, response);;
 
 		}else {

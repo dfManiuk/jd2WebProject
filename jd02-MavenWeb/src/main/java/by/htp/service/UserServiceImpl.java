@@ -1,9 +1,8 @@
 package by.htp.service;
 
-import java.sql.Time;
+
 import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -13,6 +12,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map.Entry;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import java.util.TimeZone;
 import by.htp.dao.DAOException;
 import by.htp.dao.DAOProvider;
@@ -24,7 +25,7 @@ import by.htp.entity.User;
 public class UserServiceImpl implements UserService {
 
 private static final UserDataValidator validator = UserDataValidator.getInstance(); 
-
+private static final Logger logger = LogManager.getLogger(UserServiceImpl.class.getName());
 	
 	@Override
 	public User authorization(String login, String password)  throws ServiceException {
@@ -41,7 +42,6 @@ private static final UserDataValidator validator = UserDataValidator.getInstance
 		int comparator = 0;
 		
 		try {
-		
 			user = userDao.autorization(login, password);		
 			timeCurrent = userDao.currentTimestamp();
 			
@@ -65,19 +65,21 @@ private static final UserDataValidator validator = UserDataValidator.getInstance
 				
 				comparator = dateTempFromUse.compareTo(timeCurrentFromUse);
 			if (comparator < 0) {
-				System.out.println("Время истекло");	
-				
+				System.out.println("пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ");				
 				int idPatient = (Integer) list.get(3);
 				
 					try {
 						patientDAO.updateMedicationTimeLost( (Date)list.get(1), (String)list.get(0), idPatient );
 					} catch (DAOException e) {
-						// TODO Auto-generated catch block
+						logger.error(e.toString());
 						e.printStackTrace();
+						throw new ServiceException(e);		
 					}				
 			} 
 		}
 		}catch(DAOException e) {
+			logger.error(e.toString());
+			e.printStackTrace();
 			throw new ServiceException(e);
 		}
 		
@@ -127,12 +129,12 @@ private static final UserDataValidator validator = UserDataValidator.getInstance
 
 	@Override
 	public User registration(User newUser) throws ServiceException {
+		User user  = null;
 		if (!validator.check( newUser)) {
-			throw new ServiceException("Exception: login or pasword is wrong or simply");
+			return user;
 		}
 		UserDAO userDao = DAOProvider.getInstance().getUserDAO();
 		
-		User user;
 		try {
 			user = userDao.registration(newUser);
 			
@@ -198,6 +200,21 @@ private static final UserDataValidator validator = UserDataValidator.getInstance
 		} catch (DAOException e ) {
 			throw new ServiceException(e);
 		}
+	}
+
+	@Override
+	public List<Doctor> findAllDoctorsToLeave() throws ServiceException {
+		UserDAO userDao = DAOProvider.getInstance().getUserDAO();
+		List<Doctor> doctors;
+		
+		try {
+			 doctors = userDao.findListOfLeaveUser();
+			
+		} catch (DAOException e ) {
+			throw new ServiceException(e);
+		}
+		
+		return doctors;
 	}
 	
 

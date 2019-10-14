@@ -1,62 +1,63 @@
 package by.htp.command.impl;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import by.htp.command.ICommand;
 import by.htp.controller.JspPageName;
-import by.htp.controller.RequestParameterName;
 import by.htp.entity.Patient;
-import by.htp.entity.User;
 import by.htp.service.PatientService;
 import by.htp.service.ServiceException;
 import by.htp.service.ServiceProvider;
 
-public class FindPatientCommand implements ICommand {
+public class AllDischangedPatientsCommand implements ICommand {
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
-		User user = null;
-		String page = JspPageName.USER_PAGE;;
-		
-		String patientData = request.getParameter(RequestParameterName.PATIENT_DATA);
-		
-		PatientService patientService = ServiceProvider.getInstance().getPatientService();
-		HttpSession session = request.getSession();
-		user = (User) session.getAttribute("UserSession");
-		
-		try {
-			List<Patient> list = patientService.find(patientData); 
 
-			if (list.size() != 0) { 
+		PatientService patientService = ServiceProvider.getInstance().getPatientService();
 				
-				request.setAttribute("User", user);
-				request.setAttribute("Patients", list);
+		try {
+		
+			List<Patient> listDischangedPatients = patientService.getAllPatientDischarged();
+
+			if (listDischangedPatients != null ) { 
+				Collections.sort(listDischangedPatients, new Comparator<Patient>() {
+					@Override
+					public int compare(Patient arg0, Patient arg1) {
+						String s0 = arg0.getName();
+						String s1 = arg1.getName();
+						return (s0).compareToIgnoreCase(s1);
+					}
+				});
+							
+				request.setAttribute("PatientDischanged", listDischangedPatients);
 				
+				String page = JspPageName.ALL_PATIENT_DISCHANGED_PAGE;
 				RequestDispatcher dispatcher = request.getRequestDispatcher(page);
 				dispatcher.forward(request, response);
 				
 				return page;
 				
 			} else {
-			 request.setAttribute("User", user);
-			 request.setAttribute("Patients", list);	
-			 
+			String page = JspPageName.MAIN_PAGE;	
 			RequestDispatcher dispatcher = request.getRequestDispatcher(page);
 			dispatcher.forward(request, response);
+			
 			}
 		} catch (ServiceException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return page;
+		return JspPageName.MAIN_PAGE;	
 	}
+	
 
 }

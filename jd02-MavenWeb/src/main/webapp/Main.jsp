@@ -22,6 +22,7 @@
 <fmt:message bundle="${loc}" key="local.line.first.page.name" var="namePage" />
 </head>
 <body>
+<h2> РАБОЧАЯ ВЕРСИЯ</h2>
 	<form action="controller" method="post" >
 	<input type="hidden" name="command" value="logination" />
 		<input type="hidden" name="local" value="ru" /> <input

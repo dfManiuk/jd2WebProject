@@ -35,8 +35,7 @@ public class PatientFixingCommand implements ICommand {
 			List<Patient> listPatients = patientService.giveAllPatients();
 			
 //			List<Patient> result = listPatients.stream().filter(a -> a.getIdPatient()== 24).collect(Collectors.toList());
-
-			
+		
 			for (Doctor doctor : list) {
 				System.out.println(doctor.toString());
 			}
