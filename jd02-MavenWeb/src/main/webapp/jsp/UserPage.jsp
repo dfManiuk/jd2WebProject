@@ -45,6 +45,7 @@ System.out.print(user.toString());
 <fmt:message bundle="${loc}" key="local.locLine.patient.perform" var="perform" />
 <fmt:message bundle="${loc}" key="local.locLine.patient.withdraw.simple" var="withdraw_simple" />
 <fmt:message bundle="${loc}" key="local.locLine.yes" var="yes" />
+<fmt:message bundle="${loc}" key="local.locLine.user.page.patient.simple" var="patient_simple" />
 
 <!DOCTYPE html>
 <html>
@@ -93,7 +94,7 @@ System.out.print(user.toString());
 							</form>
 						</li>
 						<li><form id="formShowAllUsers" action="controller" method="post">
-								<a href="javascript:;" onclick="parentNode.submit();">${patients}</a>
+								<a href="javascript:;" onclick="parentNode.submit();">${patient_simple}</a>
 								<input type="hidden" name="command" value="show_all_patients" /> 
 							</form></li>
 						<li><a href="Main.jsp" title="">${exit}</a></li>

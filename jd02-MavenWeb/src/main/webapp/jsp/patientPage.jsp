@@ -110,7 +110,7 @@
 				<tr>
 					<td>
 					<c:out value="${medications}" />
-					<c:if test= "${PeriosityChange eq medications }">
+					<c:if test= "${PeriosityChange eq medications}">
 					<c:out value="(последний прием)" />
 					</c:if>
 					</td>

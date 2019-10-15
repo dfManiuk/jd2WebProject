@@ -68,7 +68,7 @@ public class SQLCommands {
 	public static final String GET_MEDICATION_WITH_PERIOCITY_AND_TIMESTAMP = "SELECT idPatient, medication, medication_time, medication_per  FROM hospital.medication WHERE medication_per > 1 AND idUser = ? AND medication LIKE '%выполненно%';";
 	public static final String CURRENT_TIMESTAMP = "SELECT current_timestamp();";
 	public static final String UPDATE_MEDICATION_WHERE_TIME_LOST = "UPDATE hospital.medication SET medication = REPLACE(medication, '(выполненно)', '') WHERE idPatient = ? AND medication = ? ;";
-	public static final String UPDATE_MEDICATION_REDIOD = "UPDATE hospital.medication SET medication_per = 1  WHERE idPatient = ? AND idUser = ? AND medication  LIKE ? ;";
+	public static final String UPDATE_MEDICATION_REDIOD = "UPDATE medication SET medication_per = 1  WHERE idPatient = ? AND idUser = ? AND medication  = ? ;";
 	public static final String FIND_ALL_USERS_TO_LEAVE = "SELECT * FROM user JOIN specialization ON user.idspecialization = specialization.idspecialization WHERE user.out is false;";
 	public static final String FIND_ALL_PATIENT_DISCHANGED = "SELECT * FROM hospital.patient WHERE patient.out is false ;";
 	public static final String FIND_ALL_PATIENT_LIMIT = "SELECT * FROM hospital.patient WHERE patient.out is true LIMIT ? , ? ;";

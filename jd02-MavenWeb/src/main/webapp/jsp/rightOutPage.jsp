@@ -38,7 +38,7 @@
 	</table>
 
 
-
+<h1>!!!!!!!!!!!!!!!!!!!!!!!!!!!!</h1>
 
 
 	<table border="1">
@@ -60,6 +60,13 @@
 							type="submit" value="Выписать">
 
 					</form></td>
+				<td>
+		<form name="command" action="controller" method = "post" enctype = "multipart/form-data">
+         <input type = "file" name = "file" size = "50" />
+         <br />
+         <input type = "submit" value = "upload_file" />
+      </form>				
+      </td>	
 			</tr>
 	</table>
 	<c:set var="map1" value="${Medications.getProcedurs().values()} " />

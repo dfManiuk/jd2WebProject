@@ -1214,11 +1214,10 @@ public class DBPatientDAO implements PatientDAO {
 		ConnectionPool cPool = ConnectionPool.getInstance();
 		Connection con = null;
 		PreparedStatement stInsert = null;
+		medication = medication.replaceFirst(" ", "");
 		String sqlString = SQLCommands.UPDATE_MEDICATION_REDIOD;
-		try {		
-			medication.trim();
-			System.out.println(medication);
-			
+
+		try {				
 			con =  cPool.takeConnection();
 			stInsert = con.prepareStatement(sqlString);
 			stInsert.setInt(1, idPatient);
