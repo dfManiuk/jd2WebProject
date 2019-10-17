@@ -39,9 +39,4 @@ public class SpringWebConfig implements WebMvcConfigurer {
        return source;
     }
     
-    
-    public void configureDefaultServletHandling(
-            DefaultServletHandlerConfigurer configurer) {
-        configurer.enable();
-    }
 }

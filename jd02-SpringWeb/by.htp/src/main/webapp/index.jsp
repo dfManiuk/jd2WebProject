@@ -21,17 +21,22 @@
 }
 </style>
 </head>
+<body>
 <div id="centerLayer">
+
 <h1>Spring + Hibernate version</h1>
-	<body>
+	
 		<h1>Вход в систему</h1>
 		<form action="check-user" method="get">
-			<input type="hidden" name="command" value="logination" />
 			<h5>Введите имя пользователя</h5>
 			<input type="text" name="login" value="" />
 			<h5>Введите пароль</h5>
 			<input type="text" name="password" value="" /> <br >  
 			<br >
+			<input type="submit" value="Ввод" /> <br />
+		</form>
+		<form action="registr-user" method="get">
+			<h5>Регистрация пользователя</h5>
 			<input type="submit" value="Ввод" /> <br />
 		</form>
 </div>

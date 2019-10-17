@@ -3,6 +3,7 @@ package by.htp.entity;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "user")
 public class User  {
 	
 	public User() {}

@@ -31,8 +31,10 @@ public class UserController {
            user = userService.getUser(user.getLogin(), user.getPassword());
      
    			model.addAttribute("user", user);
-            System.out.println(user.toString());
 
-
+    }
+    @RequestMapping(value = "/registr-user", method = RequestMethod.GET)
+    public void registration() { 
+ 
     }
 }
