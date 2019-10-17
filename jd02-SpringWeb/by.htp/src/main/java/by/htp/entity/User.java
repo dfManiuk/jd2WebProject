@@ -9,7 +9,7 @@ public class User  {
 	
 	@Id
 	@Column(name = "iduser")
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	
 	@Column(name = "userName")
@@ -19,7 +19,7 @@ public class User  {
 	private String position;
 	
 	@Column(name = "idspecialization")
-	private String specialization;
+	private int specialization;
 	
 	@Column(name = "login")
 	private String 	login;
@@ -28,62 +28,12 @@ public class User  {
 	private String password;
 	
 	@Column(name = "out")
-	private int out;
+	private boolean out;
 
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getPosition() {
-		return position;
-	}
-
-	public void setPosition(String position) {
-		this.position = position;
-	}
-
-	public String getSpecialization() {
-		return specialization;
-	}
-
-	public void setSpecialization(String specialization) {
-		this.specialization = specialization;
-	}
-
-	public String getLogin() {
-		return login;
-	}
-
-	public void setLogin(String login) {
-		this.login = login;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public int getOut() {
-		return out;
-	}
-
-	public void setOut(int out) {
-		this.out = out;
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", name=" + name + ", position=" + position + ", specialization=" + specialization
+				+ ", login=" + login + ", password=" + password + ", out=" + out + "]";
 	}
 
 	@Override
@@ -93,10 +43,10 @@ public class User  {
 		result = prime * result + id;
 		result = prime * result + ((login == null) ? 0 : login.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + out;
+		result = prime * result + (out ? 1231 : 1237);
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
 		result = prime * result + ((position == null) ? 0 : position.hashCode());
-		result = prime * result + ((specialization == null) ? 0 : specialization.hashCode());
+		result = prime * result + specialization;
 		return result;
 	}
 
@@ -133,13 +83,68 @@ public class User  {
 				return false;
 		} else if (!position.equals(other.position))
 			return false;
-		if (specialization == null) {
-			if (other.specialization != null)
-				return false;
-		} else if (!specialization.equals(other.specialization))
+		if (specialization != other.specialization)
 			return false;
 		return true;
 	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getPosition() {
+		return position;
+	}
+
+	public void setPosition(String position) {
+		this.position = position;
+	}
+
+	public int getSpecialization() {
+		return specialization;
+	}
+
+	public void setSpecialization(int specialization) {
+		this.specialization = specialization;
+	}
+
+	public String getLogin() {
+		return login;
+	}
+
+	public void setLogin(String login) {
+		this.login = login;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public boolean isOut() {
+		return out;
+	}
+
+	public void setOut(boolean out) {
+		this.out = out;
+	}
+
+	
 	
 	
 }

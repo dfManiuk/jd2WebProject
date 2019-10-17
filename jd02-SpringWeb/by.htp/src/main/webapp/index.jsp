@@ -22,7 +22,7 @@
 </style>
 </head>
 <div id="centerLayer">
-<h1>Spring version</h1>
+<h1>Spring + Hibernate version</h1>
 	<body>
 		<h1>Вход в систему</h1>
 		<form action="check-user" method="get">

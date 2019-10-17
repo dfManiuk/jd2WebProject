@@ -11,9 +11,8 @@
 <body>
 <h2>
 SPRING в действии :(
+ Добро пожаловать : ${user.name};
 
-${user.login};
- ${user.password};
 
 
 </h2>

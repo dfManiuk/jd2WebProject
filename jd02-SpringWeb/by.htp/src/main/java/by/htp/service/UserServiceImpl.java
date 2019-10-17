@@ -25,4 +25,10 @@ public class UserServiceImpl implements UserService {
 	public List<User> allUsers() {
 		 return userDAO.allUsers();
 	}
+
+
+	@Override
+	public User getUser(String login, String password) {
+		return userDAO.getUser(login, password);
+	}
 }

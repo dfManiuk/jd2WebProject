@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -25,13 +26,12 @@ public class UserController {
 
 
     @RequestMapping(value = "/check-user", method = RequestMethod.GET)
-    public void index(@ModelAttribute("user") User user) { 
-    	List<User> list;
-        System.out.println("!!!" + user.getLogin());
-    
-            list = userService.allUsers();
-    
-            System.out.println("!!!" + list.toString());
+    public void index(@ModelAttribute("user") User user, Model model) { 
+    	 
+           user = userService.getUser(user.getLogin(), user.getPassword());
+     
+   			model.addAttribute("user", user);
+            System.out.println(user.toString());
 
 
     }
