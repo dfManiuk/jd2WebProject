@@ -15,7 +15,7 @@ import org.springframework.web.servlet.view.JstlView;
 
 @Configuration
 @EnableWebMvc
- @ComponentScan({ "by.htp.entity","by.htp.controller", "by.htp.dao", "by.htp.service" })
+ @ComponentScan(basePackages = {"by.htp" }) //{ "by.htp.entity","by.htp.controller", "by.htp.dao", "by.htp.service" })
 public class SpringWebConfig implements WebMvcConfigurer {
 
 

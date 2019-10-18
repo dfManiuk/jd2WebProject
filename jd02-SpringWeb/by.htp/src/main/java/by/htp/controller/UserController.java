@@ -17,17 +17,15 @@ import by.htp.service.UserService;
 @RequestMapping(value = "/")
 public class UserController {
 
+	 @Autowired
     private UserService userService;
-
-    @Autowired
-    public void setUserService(UserService userService) {
-        this.userService = userService;
-    }
-
 
     @RequestMapping(value = "/check-user", method = RequestMethod.GET)
     public void index(@ModelAttribute("user") User user, Model model) { 
-    	 
+    	
+    		List<User> list= userService.allUsers();
+    		System.out.println(list.toString());
+    		
            user = userService.getUser(user.getLogin(), user.getPassword());
      
    			model.addAttribute("user", user);
