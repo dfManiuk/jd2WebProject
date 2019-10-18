@@ -1,4 +1,4 @@
-package by.htp.config;
+package by.htp.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User.UserBuilder;
@@ -28,13 +28,14 @@ public class UserDetailsServiceImp implements UserDetailsService  {
 		User user = userDao.findUserByUsername(username);
 		UserBuilder builder = null;
 		if (user != null) {
-			builder = org.springframework.security.core.userdetails.User.withUsername(username);
-		      builder.disabled(!user.isOut());
-		      builder.password(user.getPassword());
-		      String[] authorities = user.getAuthorities()
-		          .stream().map(a -> a.getAuthority()).toArray(String[]::new);
-
-		      builder.authorities(authorities);
+//			builder = org.springframework.security.core.userdetails.User.withUsername(username);
+//		      builder.disabled(!user.isOut());
+//		      builder.password(user.getPassword());
+//		      String[] authorities = user.getAuthorities()
+//		          .stream().map(a -> a.getAuthority()).toArray(String[]::new);
+//
+//		      builder.authorities(authorities);
+			System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! detSer");
 		}else {
 			 throw new UsernameNotFoundException("User not found.");
 		}
