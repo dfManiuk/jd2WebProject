@@ -26,18 +26,11 @@
 
 <h1>Spring + Hibernate version</h1>
 	
-		<form action='<spring:url value="/loginAction"/>' method="post">
+		<form action='<spring:url value="/logout"/>' method="post">
     <table>
+
       <tr>
-        <td>Username</td>
-        <td><input type="text" name="username"></td>
-      </tr>
-      <tr>
-        <td>Password</td>
-        <td><input type="password" name="password"></td>
-      </tr>
-      <tr>
-        <td><button type="submit">Login</button></td>
+        <td><button type="submit">logout</button></td>
       </tr>
     </table>
   </form>

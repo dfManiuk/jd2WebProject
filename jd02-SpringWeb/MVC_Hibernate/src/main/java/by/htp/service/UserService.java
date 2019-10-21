@@ -5,8 +5,16 @@ import java.util.List;
 import by.htp.entity.User;
 
 public interface UserService {
-	
-	 public List<User> allUsers() ;
-	   
-	 User getUser(String login, String password);
+
+	User findById(int id);
+    
+    User findBySSO(String sso);
+     
+    void saveUser(User user);
+     
+    void updateUser(User user);
+     
+    void deleteUserBySSO(String sso);
+ 
+    List<User> findAllUsers(); 
 }

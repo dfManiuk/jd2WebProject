@@ -6,7 +6,7 @@ import by.htp.entity.User;
 
 public interface UserDAO {
 	
-	User getUser(String login, String password);
+	User getUser(String login);
 	
     List<User> allUsers();
     

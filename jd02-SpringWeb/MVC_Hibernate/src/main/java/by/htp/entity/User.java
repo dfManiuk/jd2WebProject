@@ -16,10 +16,10 @@ public class User  {
 	@Column(name = "userName")
 	private String name;
 	
-	@Column(name = "userPosition")
+	@Column(name = "position")
 	private String position;
 	
-	@Column(name = "idspecialization")
+	@Column(name = "specialization")
 	private String specialization;
 	
 	@Column(name = "login")
@@ -31,8 +31,6 @@ public class User  {
 	@Column(name = "enabled")
 	private boolean out;
 
-
-	
 	 @OneToMany(cascade = CascadeType.ALL, mappedBy = "user") // TODO посмотреть еще раз почему user 
 	  private Set<Authorities> authorities = new HashSet<>();
 	
@@ -45,13 +43,6 @@ public class User  {
 		this.authorities = authorities;
 	}
 
-	
-	
-	
-	
-	
-	
-	
 	public String getName() {
 		return name;
 	}
@@ -99,8 +90,6 @@ public class User  {
 	public void setOut(boolean out) {
 		this.out = out;
 	}
-
-	
 
 	@Override
 	public int hashCode() {
@@ -163,9 +152,10 @@ public class User  {
 	@Override
 	public String toString() {
 		return "User [name=" + name + ", position=" + position + ", specialization=" + specialization + ", login="
-				+ login + ", password=" + password + ", out=" + out + "]";
+				+ login + ", password=" + password + ", out=" + out + ", authorities=" + authorities + "]";
 	}
 
+	
 	
 	
 	

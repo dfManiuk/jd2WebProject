@@ -25,19 +25,22 @@ public class UserDAOImpl implements UserDAO {
     }
 
 	@Override
-	public User getUser(String login, String password) {
+	public User getUser(String login) {
 
 		Session session = sessionFactory.getCurrentSession();
-		Query query =   session.createQuery("FROM User u where u.password = :password");
-    
-        query.setParameter("password", password);
+		Query query =   session.createQuery("FROM User u where u.login = :login");  
+        query.setParameter("login", login);
         User theUser= (User) query.getSingleResult();
+        System.out.println(theUser.toString());
          return theUser; 
 	}
 
 	@Override
 	public User findUserByUsername(String username) {
+		System.out.println("IIIIIIIIIIIIIIIIIIIIII" + username);
+		
 		return sessionFactory.getCurrentSession().get(User.class, username);
+		
 	}
 
     
