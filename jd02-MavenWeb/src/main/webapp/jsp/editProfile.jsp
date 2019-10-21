@@ -9,15 +9,14 @@
 
 </head>
 <body>
-Hello!! This is edit profile page
+
 <h1>Внесите изминения</h1>
 		<form action="../controller" method="post">
 			<input type="hidden" name="command" value="user_edit_profile" />
 			<h5>Введите имя пользователя</h5>
 			<input type="text" name="login" value="" />
 			<h5>Введите пароль</h5>
-			<input type="text" name="password" value="" /><br /> <br /> <input
-				type="submit" value="Ввод" /> <br />
+			<input type="text" name="password" value="" /><br /> <br /> 
 			<h5>Введите специализацию</h5>
 			<input type="text" name="specialization" value="" /><br /> <br /> <input
 				type="submit" value="Ввод" /> <br />

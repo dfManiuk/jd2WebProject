@@ -20,9 +20,10 @@ public class PatientServiseImpl implements PatientService{
 	
 	@Override
 	public Patient registration(String name,String passport, String birth, String adress,  String telephone) throws ServiceException {
-		// Validation
+
 		if(name == null || birth == null || adress == null || telephone == null) {
-		//TODO throw new Exception()
+		logger.error("Mandatory user registration fields are not filled");
+		throw new ServiceException("Mandatory user registration fields are not filled");
 	}
 		DAOProvider provider = DAOProvider.getInstance();
 		PatientDAO patientDAO = provider.getPatientDAO();
@@ -31,23 +32,19 @@ public class PatientServiseImpl implements PatientService{
 			patient = patientDAO.registration(name, passport, birth, adress, telephone);
 		} catch (DAOException e) {
 			e.printStackTrace();
-			logger.error(e.toString());
+			throw new ServiceException(e);
 		}
 		return patient;
 	}
 
 	@Override
-	public Patient registration(Patient patient) throws ServiceException {
-		
-		patient = registration(patient.getName(), patient.getPassport(), patient.getData(), patient.getAdress(), patient.getTelephone());
-		
-		return patient;
-		
-		
+	public Patient registration(Patient patient) throws ServiceException {	
+		patient = registration(patient.getName(), patient.getPassport(), patient.getData(), patient.getAdress(), patient.getTelephone());	
+		return patient;	
 	}
 
 	@Override
-	public ArrayList<Patient> find(String string) {
+	public ArrayList<Patient> find(String string) throws ServiceException {
 		ArrayList<Patient> list = null;
 		DAOProvider provider = DAOProvider.getInstance();
 		PatientDAO patientDAO = provider.getPatientDAO();
@@ -55,7 +52,7 @@ public class PatientServiseImpl implements PatientService{
 			list = patientDAO.find(string);
 		} catch (DAOException e) {
 			e.printStackTrace();
-			logger.error(e.toString());		
+			throw new ServiceException(e);
 		}
 		return list;
 	}
@@ -68,7 +65,7 @@ public class PatientServiseImpl implements PatientService{
 			patientDAO.fixing(doctor, patient);
 		} catch (DAOException e) {
 			e.printStackTrace();
-			logger.error(e.toString());
+			throw new ServiceException(e);
 		}
 		
 	}
@@ -81,7 +78,7 @@ public class PatientServiseImpl implements PatientService{
 			patientDAO.medication(medication, patient);
 		} catch (DAOException e) {
 			e.printStackTrace();
-			logger.error(e.toString());
+			throw new ServiceException(e);
 		}
 	}
 
@@ -94,7 +91,7 @@ public class PatientServiseImpl implements PatientService{
 			list = patientDAO.fintPatientFromUser(user);
 		} catch (DAOException e) {
 			e.printStackTrace();
-			logger.error(e.toString());
+			throw new ServiceException(e);
 		}
 		return list;
 	}
@@ -108,7 +105,7 @@ public class PatientServiseImpl implements PatientService{
 			patient = patientDAO.findFromName(patientsData);
 		} catch (DAOException e) {
 			e.printStackTrace();
-			logger.error(e.toString());
+			throw new ServiceException(e);
 		}
 		return patient;
 	}
@@ -122,7 +119,7 @@ public class PatientServiseImpl implements PatientService{
 			medication = patientDAO.getPatientMedication(patient);
 		} catch (DAOException e) {
 			e.printStackTrace();
-			logger.error(e.toString());
+			throw new ServiceException(e);
 		}
 		return medication;
 
@@ -136,7 +133,7 @@ public class PatientServiseImpl implements PatientService{
 			patientDAO.updateMedication(idUser, medication);
 		} catch (DAOException e) {
 			e.printStackTrace();
-			logger.error(e.toString());
+			throw new ServiceException(e);
 		}
 	}
 
@@ -148,7 +145,7 @@ public class PatientServiseImpl implements PatientService{
 			patientDAO.deleteMedication(medication);
 		} catch (DAOException e) {
 			e.printStackTrace();
-			logger.error(e.toString());
+			throw new ServiceException(e);
 		}
 	}
 
@@ -160,7 +157,7 @@ public class PatientServiseImpl implements PatientService{
 			patientDAO.addMedication(medication);
 		} catch (DAOException e) {
 			e.printStackTrace();
-			logger.error(e.toString());
+			throw new ServiceException(e);
 		}
 		
 	}
@@ -174,7 +171,7 @@ public class PatientServiseImpl implements PatientService{
 			list = patientDAO.getAllPatient();
 		} catch (DAOException e) {
 			e.printStackTrace();
-			logger.error(e.toString());
+			throw new ServiceException(e);
 		}
 		return list;
 	}
@@ -187,7 +184,7 @@ public class PatientServiseImpl implements PatientService{
 			patientDAO.unFixing(user, patient);
 		} catch (DAOException e) {
 			e.printStackTrace();
-			logger.error(e.toString());
+			throw new ServiceException(e);
 		}
 	}
 
@@ -200,7 +197,7 @@ public class PatientServiseImpl implements PatientService{
 			list = patientDAO.fintPatientFromUserWithLimit(user, start, delimeter);
 		} catch (DAOException e) {
 			e.printStackTrace();
-			logger.error(e.toString());
+			throw new ServiceException(e);
 		}
 		return list;
 	}
@@ -214,7 +211,7 @@ public class PatientServiseImpl implements PatientService{
 			count = patientDAO.countOfpatient();
 		} catch (DAOException e) {
 			e.printStackTrace();
-			logger.error(e.toString());
+			throw new ServiceException(e);
 		}
 		return count;
 	}
@@ -228,20 +225,20 @@ public class PatientServiseImpl implements PatientService{
 			count = patientDAO.countOfpatientForUser(user);
 		} catch (DAOException e) {
 			e.printStackTrace();
-			logger.error(e.toString());
+			throw new ServiceException(e);
 		}
 		return count;
 	}
 
 	@Override
-	public void addPhoto(int id, InputStream in) {
+	public void addPhoto(int id, InputStream in) throws ServiceException {
 		DAOProvider provider = DAOProvider.getInstance();
 		PatientDAO patientDAO = provider.getPatientDAO();
 		try {
 			patientDAO.addPhoto(id, in);
 		} catch (DAOException e) {
 			e.printStackTrace();
-			logger.error(e.toString());
+			throw new ServiceException(e);
 		}
 		
 	}
@@ -255,7 +252,7 @@ public class PatientServiseImpl implements PatientService{
 			imageBytes = patientDAO.getPhoto(id);
 		} catch (DAOException e) {
 			e.printStackTrace();
-			logger.error(e.toString());
+			throw new ServiceException(e);
 		}
 		return imageBytes;
 	}
@@ -269,7 +266,7 @@ public class PatientServiseImpl implements PatientService{
 			list = patientDAO.getDiagnosis(id);
 		} catch (DAOException e) {
 			e.printStackTrace();
-			logger.error(e.toString());
+			throw new ServiceException(e);
 		}
 		return list;
 	}
@@ -282,7 +279,7 @@ public class PatientServiseImpl implements PatientService{
 			patientDAO.setDiagnosis(diagnos, patientId);
 		} catch (DAOException e) {
 			e.printStackTrace();
-			logger.error(e.toString());
+			throw new ServiceException(e);
 		}
 	}
 
@@ -294,7 +291,7 @@ public class PatientServiseImpl implements PatientService{
 			patientDAO.addDiagnosis(diagnos, patientId);
 		} catch (DAOException e) {
 			e.printStackTrace();
-			logger.error(e.toString());
+			throw new ServiceException(e);
 		}
 		
 	}
@@ -308,7 +305,7 @@ public class PatientServiseImpl implements PatientService{
 			diagnos = patientDAO.getPatientDiagnosis(patientId);
 		} catch (DAOException e) {
 			e.printStackTrace();
-			logger.error(e.toString());
+			throw new ServiceException(e);
 		}
 		return diagnos;
 	}
@@ -322,7 +319,7 @@ public class PatientServiseImpl implements PatientService{
 			card = patientDAO.getPatientCard(userId);
 		} catch (DAOException e) {
 			e.printStackTrace();
-			logger.error(e.toString());
+			throw new ServiceException(e);
 		}
 		return card;
 	}
@@ -335,7 +332,7 @@ public class PatientServiseImpl implements PatientService{
 			patientDAO.rightOut(patientId);
 		} catch (DAOException e) {
 			e.printStackTrace();
-			logger.error(e.toString());
+			throw new ServiceException(e);
 		}
 	}
 
@@ -348,7 +345,7 @@ public class PatientServiseImpl implements PatientService{
 			list = patientDAO.fintPatientFromNursWithLimit(start, delimeter);
 		} catch (DAOException e) {
 			e.printStackTrace();
-			logger.error(e.toString());
+			throw new ServiceException(e);
 		}
 		return list;
 	}
@@ -363,7 +360,7 @@ public class PatientServiseImpl implements PatientService{
 			list = patientDAO.fintPatientFromUserWithLimitWithNotCheckMedication(id, start, delimeter);
 		} catch (DAOException e) {
 			e.printStackTrace();
-			logger.error(e.toString());
+			throw new ServiceException(e);
 		}
 		return list;
 	}
@@ -378,7 +375,7 @@ public class PatientServiseImpl implements PatientService{
 			list = patientDAO.fintPatientFromUserWithLimitWithNotCheckMedicationForNurse(start, delimeter);
 		} catch (DAOException e) {
 			e.printStackTrace();
-			logger.error(e.toString());
+			throw new ServiceException(e);
 		}
 		return list;
 	}
@@ -391,7 +388,7 @@ public class PatientServiseImpl implements PatientService{
 			patientDAO.addMedicationPeriocity(medication);
 		} catch (DAOException e) {
 			e.printStackTrace();
-			logger.error(e.toString());
+			throw new ServiceException(e);
 		}
 		
 	}
@@ -404,7 +401,7 @@ public class PatientServiseImpl implements PatientService{
 			patientDAO.updateMedicationPeriod(medication, idPatient, idUser);
 		} catch (DAOException e) {
 			e.printStackTrace();
-			logger.error(e.toString());
+			throw new ServiceException(e);
 		}
 		
 	}
@@ -418,7 +415,7 @@ public class PatientServiseImpl implements PatientService{
 			list = patientDAO.getAllPatientDischarged();
 		} catch (DAOException e) {
 			e.printStackTrace();
-			logger.error(e.toString());
+			throw new ServiceException(e);
 		}
 		return list;
 	}
@@ -432,7 +429,7 @@ public class PatientServiseImpl implements PatientService{
 			list = patientDAO.getAllPatientLimit(start, delimeter  );
 		} catch (DAOException e) {
 			e.printStackTrace();
-			logger.error(e.toString());
+			throw new ServiceException(e);
 		}
 		return list;
 	}
@@ -446,7 +443,7 @@ public class PatientServiseImpl implements PatientService{
 			set = patientDAO.getAllPatientDischargedSet(start, delimeter);
 		} catch (DAOException e) {
 			e.printStackTrace();
-			logger.error(e.toString());
+			throw new ServiceException(e);
 		}
 		return set;
 	}

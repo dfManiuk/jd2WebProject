@@ -30,11 +30,8 @@ public class UserEditProfile implements ICommand {
 		String login = request.getParameter(RequestParameterName.NICK_NAME);
 		String password = request.getParameter(RequestParameterName.PASSWORD);
 		
-		User user;
-		String page = null;
-		
 		HttpSession session = request.getSession();
-		user = (User) session.getAttribute("User");
+		User user = (User) session.getAttribute("User");
 		
 		user.setLogin(login);
 		user.setPassword(password);
@@ -44,20 +41,19 @@ public class UserEditProfile implements ICommand {
 		System.out.println(user.toString());
 		
 		try {
+			
 			user = userService.editProfile(user);
 				
 			request.setAttribute("User", user);
-			page = JspPageName.USER_PAGE;
 		
-			RequestDispatcher dispatcher = request.getRequestDispatcher(page);
+			RequestDispatcher dispatcher = request.getRequestDispatcher(JspPageName.USER_PAGE);
 			dispatcher.forward(request, response);
 		
 		} catch (ServiceException e) {
 			
 			e.printStackTrace();
-		}
-		
-		return page;
+		}	
+		return JspPageName.MAIN_PAGE;
 	}
 
 }

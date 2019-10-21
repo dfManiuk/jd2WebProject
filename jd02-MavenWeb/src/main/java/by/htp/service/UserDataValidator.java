@@ -2,11 +2,10 @@ package by.htp.service;
 
 import by.htp.dao.DAOProvider;
 import by.htp.dao.ValidatorDAO;
+import by.htp.entity.Patient;
 import by.htp.entity.User;
 
 public class UserDataValidator {
-	
-	
 	
 private static final UserDataValidator instance = new UserDataValidator();
 	
@@ -46,5 +45,15 @@ private static final UserDataValidator instance = new UserDataValidator();
 		// TODO Auto-generated method stub
 		return false;
 	}
+	public boolean check(Patient patient) {
+		String name = patient.getName();	
+		String data = patient.getData();
+		String passport = patient.getPassport();
+	
+		if ( name != null || passport != null || data != null ) {
+			return true;
+		}
 
+		return false;
+	}
 }

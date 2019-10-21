@@ -18,7 +18,6 @@ import by.htp.service.UserService;
 
 public class LoginationCommand implements ICommand {
 
-	 //private static final Logger logger = LogManager.getLogger(LoginationCommand.class.getName());
 	 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException {

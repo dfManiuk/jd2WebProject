@@ -54,7 +54,8 @@ public class AllDischangedPatientsCommand implements ICommand {
 			
 			JSPSetBean jsp = new JSPSetBean(set);
 			
-			if (listDischangedPatients != null ) { 
+			if (listDischangedPatients != null && session == null ) { 
+				
 				Collections.sort(listDischangedPatients, new Comparator<Patient>() {
 					@Override
 					public int compare(Patient arg0, Patient arg1) {
@@ -70,7 +71,6 @@ public class AllDischangedPatientsCommand implements ICommand {
 				request.setAttribute("Delimeter",delimeter );
 				request.setAttribute("PatientDischanged", listDischangedPatients);
 				request.setAttribute("userbean", jsp);
-				session.setAttribute("Delimeter",delimeter);
 				
 				
 				String page = JspPageName.ALL_PATIENT_DISCHANGED_PAGE;

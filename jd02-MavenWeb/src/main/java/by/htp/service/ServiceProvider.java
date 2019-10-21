@@ -10,7 +10,6 @@ public class ServiceProvider {
 	
 	private PatientService patientService = new PatientServiseImpl();
 	
-	
 	public static ServiceProvider getInstance() {
 		return instance;
 	}

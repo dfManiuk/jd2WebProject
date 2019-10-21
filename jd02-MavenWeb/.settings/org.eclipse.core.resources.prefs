@@ -5,6 +5,7 @@ encoding//src/main/java/by/htp/command/impl/FindPatientFromUser.java=Cp1251
 encoding//src/main/java/by/htp/command/impl/UserDismissalCommand.java=Cp1251
 encoding//src/main/java/by/htp/dao/SQLCommands.java=Cp1251
 encoding//src/main/java/by/htp/service/UserDataValidator.java=UTF-8
+encoding//src/main/java/by/htp/service/UserServiceImpl.java=Cp1251
 encoding//src/main/resources=UTF-8
 encoding//src/test/java=UTF-8
 encoding/<project>=UTF-8

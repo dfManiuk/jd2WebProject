@@ -141,20 +141,19 @@ public class DBUserDAO implements UserDAO {
 		} catch (SQLException e) {
 			logger.error(e.toString());
 			e.printStackTrace();
+			throw new DAOException(e);
 		} catch (ConnectionPoolException e) {
 			logger.error(e.toString());
 			e.printStackTrace();
+			throw new DAOException(e);
 		} 	finally {
 			cPool.closeConnection(con, st, rs);
 		}	
-		System.out.println(idUser);
-		return idUser;	
 	}
 
 	@Override
-	public User editProfile(User user){
+	public User editProfile(User user) throws DAOException{
 		if (user != null) {	
-		System.out.println("DAOedit");
 		Connection con = null;
 		PreparedStatement stIn = null;
 				
@@ -177,9 +176,11 @@ public class DBUserDAO implements UserDAO {
 		} catch (SQLException e) {
 			logger.error(e.toString());
 			e.printStackTrace();
+			throw new DAOException(e);
 		} catch (ConnectionPoolException e) {
 			logger.error(e.toString());
 			e.printStackTrace();
+			throw new DAOException(e);
 		} finally {
 			 cPool.closeConnection(con, stIn);
 		}
@@ -189,9 +190,9 @@ public class DBUserDAO implements UserDAO {
 			try {
 				user = autorization(login, password);
 			} catch (DAOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 				logger.error(e.toString());
+				e.printStackTrace();
+				throw new DAOException(e);
 		} 
 	    }
 		return user;
@@ -226,14 +227,18 @@ public class DBUserDAO implements UserDAO {
 			}
 			
 			return list;
-		} catch (Exception e) {
+		} catch (SQLException e) {
 			logger.error(e.toString());
 			e.printStackTrace();
+			throw new DAOException(e);
+		} catch (ConnectionPoolException e) {
+			logger.error(e.toString());
+			e.printStackTrace();
+			throw new DAOException(e);
 		} 	finally {
 			cPool.closeConnection(con, st, rs);
 		}	
 		
-		return list;	
 	}
 
 	@Override
@@ -268,13 +273,14 @@ public class DBUserDAO implements UserDAO {
 	} catch (SQLException e) {
 		logger.error(e.toString());
 		e.printStackTrace();
+		throw new DAOException(e);
 	} catch (ConnectionPoolException e) {
 		logger.error(e.toString());
 		e.printStackTrace();
+		throw new DAOException(e);
 	} finally {
 		cPool.closeConnection(con, stInsert, rs);
 	}
-		return list;
 	}
 
 	@Override
@@ -293,9 +299,14 @@ public class DBUserDAO implements UserDAO {
 			if(rs.next()){
 				role=rs.getString(1);
 			}			
-		} catch (Exception e) {
+		} catch (SQLException e) {
 			logger.error(e.toString());
 			e.printStackTrace();
+			throw new DAOException(e);
+		} catch (ConnectionPoolException e) {
+			logger.error(e.toString());
+			e.printStackTrace();
+			throw new DAOException(e);
 		} 	finally {
 			cPool.closeConnection(con, st, rs);
 		}		
@@ -318,9 +329,14 @@ public class DBUserDAO implements UserDAO {
 			if(rs.next()){
 				id=rs.getInt(1);
 			}			
-		} catch (Exception e) {
+		} catch (SQLException e) {
 			logger.error(e.toString());
 			e.printStackTrace();
+			throw new DAOException(e);
+		} catch (ConnectionPoolException e) {
+			logger.error(e.toString());
+			e.printStackTrace();
+			throw new DAOException(e);
 		} 	finally {
 			cPool.closeConnection(con, st, rs);
 		}		
@@ -333,7 +349,7 @@ public class DBUserDAO implements UserDAO {
 		Connection con = null;
 		PreparedStatement st = null;
 		try {
-			String sql = SQLCommands.FIND_USER_ROLE;
+			String sql = SQLCommands.UPDATE_USER_OFF;
 			con = cPool.takeConnection();
 			st = con.prepareStatement(sql);
 			st.setInt(1, userId);
@@ -342,9 +358,11 @@ public class DBUserDAO implements UserDAO {
 		} catch (SQLException e) {
 			logger.error(e.toString());
 			e.printStackTrace();
+			throw new DAOException(e);
 		} catch (ConnectionPoolException e) {
 			logger.error(e.toString());
 			e.printStackTrace();
+			throw new DAOException(e);
 		}
 		finally {
 			cPool.closeConnection(con, st);
@@ -370,9 +388,14 @@ public class DBUserDAO implements UserDAO {
 				 date = (rs.getTimestamp(1, UTCCALENDAR));
 				 date = new Date(date.getTime());
 			}			
-		} catch (Exception e) {
+		} catch (SQLException e) {
 			logger.error(e.toString());
 			e.printStackTrace();
+			throw new DAOException(e);
+		} catch (ConnectionPoolException e) {
+			logger.error(e.toString());
+			e.printStackTrace();
+			throw new DAOException(e);
 		} 	finally {
 			cPool.closeConnection(con, st, rs);
 	}
@@ -404,14 +427,17 @@ public class DBUserDAO implements UserDAO {
 			}
 			
 			return list;
-		} catch (Exception e) {
+		} catch (SQLException e) {
 			logger.error(e.toString());
 			e.printStackTrace();
+			throw new DAOException(e);
+		} catch (ConnectionPoolException e) {
+			logger.error(e.toString());
+			e.printStackTrace();
+			throw new DAOException(e);
 		} 	finally {
 			cPool.closeConnection(con, st, rs);
 		}	
-		
-		return list;	
 	}	
 }
 

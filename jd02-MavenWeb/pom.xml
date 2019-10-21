@@ -106,7 +106,7 @@
 					<url>http://localhost:8080/manager/text</url>
 					<server>TomcatServer</server>
 					<path>/webProject</path>
-					<username>cargo</username>
+					<username>dima</username>
 					<password>not_real_pass</password>
 				 	<ignorePackaging>true</ignorePackaging> 
 				</configuration>

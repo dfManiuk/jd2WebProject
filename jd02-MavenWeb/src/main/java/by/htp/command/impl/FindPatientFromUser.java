@@ -33,9 +33,19 @@ public class FindPatientFromUser implements ICommand {
 		String delim;
 		String startS;
 		int countPatientsTableLine = 0;
+		HttpSession session = null;
 		
-		HttpSession session = request.getSession();
-		user = (User) session.getAttribute("UserSession");	
+		if (request.getSession() != null) {
+			session = request.getSession();
+			user = (User) session.getAttribute("UserSession");	
+		} else {
+			request.setAttribute("NullUser", "nullUserRequest");
+			page = JspPageName.MAIN_PAGE;
+				
+			RequestDispatcher dispatcher = request.getRequestDispatcher(page);
+			dispatcher.forward(request, response);
+		}
+
 		
 		if (( delim = request.getParameter(RequestParameterName.DELIMETER_LIST_OF_PATIENTS)) != null) {
 			delimeter = Integer.parseInt(delim);
@@ -51,9 +61,6 @@ public class FindPatientFromUser implements ICommand {
 		PatientService service = ServiceProvider.getInstance().getPatientService();
 		
 		try {
-		
-			//System.out.println("start^ "+ start);
-			//System.out.println("delimeter^ "+ delimeter + " delim " + delim);
 			
 			if (user.getPosition().equalsIgnoreCase("Врач")) {
 				countPatientsTableLine = service.countOfPatientsForUser(user);

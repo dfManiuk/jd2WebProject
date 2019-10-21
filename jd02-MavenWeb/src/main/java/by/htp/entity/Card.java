@@ -4,11 +4,11 @@ import java.util.Date;
 
 public class Card {
 
-	int idPatient;
-	String patientName;
-	Date date;
-	String epicris;
-	Medication medication;
+	private int idPatient;
+	private String patientName;
+	private Date date;
+	private String epicris;
+	private Medication medication;
 	
 	public Card() {}
 

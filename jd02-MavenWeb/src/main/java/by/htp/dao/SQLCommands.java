@@ -73,5 +73,6 @@ public class SQLCommands {
 	public static final String FIND_ALL_PATIENT_DISCHANGED = "SELECT * FROM hospital.patient WHERE patient.out is false ;";
 	public static final String FIND_ALL_PATIENT_LIMIT = "SELECT * FROM hospital.patient WHERE patient.out is true LIMIT ? , ? ;";
 	public static final String FIND_ALL_PATIENT_DISCHANGED_LIMIT = "SELECT * FROM hospital.patient WHERE patient.out is false LIMIT ? , ? ;";
+	public static final String UPDATE_USER_OFF = "UPDATE hospital.user SET user.out = 0 WHERE user.iduser = ? ;";
 }
 

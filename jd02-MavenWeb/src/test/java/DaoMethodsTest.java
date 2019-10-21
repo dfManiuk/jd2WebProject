@@ -8,7 +8,6 @@ import by.htp.pool.ConnectionPoolException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import org.junit.Assert;
-import org.junit.BeforeClass;
 
 public class DaoMethodsTest {
 	

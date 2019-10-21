@@ -34,7 +34,7 @@ public class AddPhotoCommand implements FileCommand{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			}
-		return null;
+		return JspPageName.ADD_PATIENT_PAGE;
 		}
 
 		

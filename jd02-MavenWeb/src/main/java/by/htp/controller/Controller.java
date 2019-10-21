@@ -14,13 +14,17 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import by.htp.command.CommandHelper;
 import by.htp.command.FileCommand;
 import by.htp.command.ICommand;
 
+
 public class Controller extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
+	private static final Logger logger = LogManager.getLogger(Controller.class);	
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
@@ -77,7 +81,7 @@ public class Controller extends HttpServlet {
 					}					
 				}
 			} catch (FileUploadException e) {
-				// TODO Auto-generated catch block
+				logger.error(e.toString());
 				e.printStackTrace();
 			}
 		}

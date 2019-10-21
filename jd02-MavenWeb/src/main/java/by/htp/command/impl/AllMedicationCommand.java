@@ -34,25 +34,6 @@ public class AllMedicationCommand implements ICommand {
 			
 			if (patient != null && medication != null ) {
 				
-//				HashMap<Integer, List<String>> map = medication.getProcedurs();
-//				
-//				for (Integer key : map.keySet()) {
-//				    System.out.println("Key: " + key);
-//				}
-//				for (List<String> value : map.values()) {
-//				    System.out.println("Value: " + value.toString().replace("[", "").replace("]", ""));
-//			}
-//				
-//				HashMap<Integer, List<String>> map1 = medication.getMedications();
-//				
-//				for (Integer key : map1.keySet()) {
-//				    System.out.println("Key: " + key);
-//				}
-//				for (List<String> value : map1.values()) {
-//				    System.out.println("Value: " + value.toString().replace("[", "").replace("]", ""));
-//				}
-				
-			
 				request.setAttribute("Patient", patient);
 				request.setAttribute("Medications", medication);
 				
@@ -62,7 +43,7 @@ public class AllMedicationCommand implements ICommand {
 				dispatcher.forward(request, response);
 				
 			} else {
-				
+				response.sendRedirect(JspPageName.USER_PAGE);
 			}
 		}catch (ServiceException e) {
 				// TODO Auto-generated catch block

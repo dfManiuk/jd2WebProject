@@ -13,9 +13,9 @@ public class Medication {
 	private int idUser;
 	private int periodicity;
 
-	HashMap<Integer, List<String>> procedurs;
-	HashMap<Integer, List<String>> medications ;
-	HashMap<Integer, List<String>> operations;
+	private HashMap<Integer, List<String>> procedurs;
+	private HashMap<Integer, List<String>> medications ;
+	private HashMap<Integer, List<String>> operations;
 	
 	public Medication() {
 		

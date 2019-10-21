@@ -19,14 +19,15 @@ import by.htp.service.ServiceProvider;
 
 public class AddMedicationCommand implements ICommand {
 
+	private static final String error = "Add medication ERROR";
+	
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		Patient patient = null;
-		String page = null;
-		Medication medication = null;
+		Patient patient;
+		Medication medication;
 		User user;
-		byte[] imageBytes = null;
+		byte[] imageBytes;
 	
 		PatientService patientService = ServiceProvider.getInstance().getPatientService();
 		
@@ -58,28 +59,25 @@ public class AddMedicationCommand implements ICommand {
 								
 				request.setAttribute("Patient", patient);
 				request.setAttribute("Medications", medication);
+				
 				if (imageBytes != null) {
 					String base64Image = Base64.getEncoder().encodeToString(imageBytes);
 					request.setAttribute("base64Image", base64Image);
 				}
 				
-				page = JspPageName.PATIENT_PAGE;
-				
-				RequestDispatcher dispatcher = request.getRequestDispatcher(page);
+				RequestDispatcher dispatcher = request.getRequestDispatcher(JspPageName.PATIENT_PAGE);
 				dispatcher.forward(request, response);
 				
-				return page;
+				return JspPageName.PATIENT_PAGE;
 				
-			} else {
-
-			page = JspPageName.USER_PAGE;			
-			response.sendRedirect(page);
+			} else {				
+			response.sendRedirect(JspPageName.USER_PAGE);
 			}
 		} catch (ServiceException e) {
-			// TODO Auto-generated catch block
+			session.setAttribute("error", error);
 			e.printStackTrace();
 		}
-		return page;
+		return JspPageName.USER_PAGE;
 	}
 	
 

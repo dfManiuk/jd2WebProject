@@ -16,7 +16,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
 import javax.imageio.ImageIO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -64,6 +63,7 @@ public class DBPatientDAO implements PatientDAO {
 			int affectedRows = stInsert.executeUpdate();
 			if (affectedRows == 0) {
 				logger.error("Creating user failed, no rows affected.");
+				throw new DAOException("Creating user failed, no rows affected.");
 	        }
 			rs = stInsert.getGeneratedKeys();
 			if (rs.next()){
@@ -75,6 +75,7 @@ public class DBPatientDAO implements PatientDAO {
 			int affectedRows2 = stInsert.executeUpdate();
 			if (affectedRows2 == 0) {
 				logger.error("Creating user failed, no rows affected.");
+				throw new DAOException("Creating user failed, no rows affected.");
 	        }
 			rs = stInsert.getGeneratedKeys();
 			if (rs.next()){
@@ -90,8 +91,11 @@ public class DBPatientDAO implements PatientDAO {
 		} catch (SQLException e) {
 			logger.error(e.toString());
 			e.printStackTrace();
+			throw new DAOException(e);			
 		} catch (ConnectionPoolException e) {
+			logger.error(e.toString());
 			e.printStackTrace();
+			throw new DAOException(e);
 		} finally {	
 			cPool.closeConnection(con, stInsert);
 		}
@@ -110,7 +114,6 @@ public class DBPatientDAO implements PatientDAO {
 		Patient patient;
 		PreparedStatement stInsert = null;
 		ResultSet rs = null;
-	//	PreparedStatement stInsertids = null;
 		try {
 			set = new HashSet<Patient>();
 			con = cPool.takeConnection();
@@ -133,28 +136,20 @@ public class DBPatientDAO implements PatientDAO {
 				set.add(patient);
 			}
 
-			/*
-			 * String sqlStringFindids = SQLStrings.PATIENT_FIND_CARDS; for (int i = 0; i
-			 * <set.size(); i++) { patient =set); stInsertids =
-			 * con.prepareStatement(sqlStringFindids); stInsertids.setInt(1,
-			 * patient.getIdPatient()); rs = stInsertids.executeQuery(); if (rs.next()) {
-			 * int idPatient = rs.getInt(1); Time time = rs.getTime(2);
-			 * patient.setIdMedication(rs.getInt(3)); patient.setIdCard(rs.getInt(4)); } }
-			 */
 			list = new ArrayList<Patient>(set);
 			return list;
 
 		} catch (ConnectionPoolException e) {
-			// TODO Auto-generated catch block
+			logger.error(e.toString());
 			e.printStackTrace();
+			throw new DAOException(e);
 		} catch (SQLException e) {
-			System.out.println(e.toString()); // TODO !!!
+			logger.error(e.toString());
 			e.printStackTrace();
+			throw new DAOException(e);
 		} finally {
 			cPool.closeConnection(con, stInsert, rs);
 		}
-
-		return list;
 
 	}
 
@@ -184,12 +179,13 @@ public class DBPatientDAO implements PatientDAO {
 			st.executeUpdate();
 			cPool.closeConnection(con, st, rs);
 		} catch (SQLException e) {
-			// TODO: handle exception
 			logger.error(e.toString());
 			e.printStackTrace();
+			throw new DAOException(e);
 		} catch (ConnectionPoolException e) {
 			logger.error(e.toString());
 			e.printStackTrace();
+			throw new DAOException(e);
 		}
 	}
 
@@ -211,9 +207,14 @@ public class DBPatientDAO implements PatientDAO {
 			st.setInt(4, objectPatient.getIdPatient());
 			st.executeUpdate();
 
-		} catch (Exception e) {
+		} catch (ConnectionPoolException e) {
 			logger.error(e.toString());
-			System.out.println(e.toString());
+			e.printStackTrace();
+			throw new DAOException(e);
+		}catch (SQLException e) {
+			logger.error(e.toString());
+			e.printStackTrace();
+			throw new DAOException(e);
 		} finally {
 			cPool.closeConnection(con, st);
 		}
@@ -261,9 +262,14 @@ public class DBPatientDAO implements PatientDAO {
 				patient.setIdCard(rs2.getInt(9));
 				patients.add(patient);
 			}
-		} catch (Exception e) {
+		} catch (ConnectionPoolException e) {
 			logger.error(e.toString());
-			System.out.println(e.toString());
+			e.printStackTrace();
+			throw new DAOException(e);
+		} catch (SQLException e) {
+			logger.error(e.toString());
+			e.printStackTrace();
+			throw new DAOException(e);
 		} finally {
 			cPool.closeConnection(con, stInsert);
 		}
@@ -304,14 +310,14 @@ public class DBPatientDAO implements PatientDAO {
 		} catch (ConnectionPoolException e) {
 			logger.error(e.toString());
 			e.printStackTrace();
-			
+			throw new DAOException(e);
 		} catch (SQLException e) {
 			logger.error(e.toString());
 			e.printStackTrace();
+			throw new DAOException(e);
 		} finally {
 			cPool.closeConnection(con, stInsert, rs);
 		}
-		return patient;
 
 	}
 
@@ -347,13 +353,15 @@ public class DBPatientDAO implements PatientDAO {
 			return list;
 		} catch (SQLException e) {
 			logger.error(e.toString());
+			e.printStackTrace();
+			throw new DAOException(e);
 		} catch (ConnectionPoolException e) {
 			logger.error(e.toString());
 			e.printStackTrace();
+			throw new DAOException(e);
 		} finally {
 			cPool.closeConnection(con, stInsert, rs);
 		}
-		return list;
 	}
 
 	@Override
@@ -387,15 +395,17 @@ public class DBPatientDAO implements PatientDAO {
 			}
 			return medication;
 		} catch (SQLException e) {
-			e.printStackTrace();
 			logger.error(e.toString());
+			e.printStackTrace();
+			throw new DAOException(e);
 		} catch (ConnectionPoolException e) {
 			logger.error(e.toString());
 			e.printStackTrace();
+			throw new DAOException(e);
 		} finally {
 			cPool.closeConnection(con, st, rs);
 		}
-		return medication;
+
 	}
 
 	@Override
@@ -422,9 +432,11 @@ public class DBPatientDAO implements PatientDAO {
 		} catch (SQLException e) {
 			logger.error(e.toString());
 			e.printStackTrace();
+			throw new DAOException(e);
 		} catch (ConnectionPoolException e) {
 			logger.error(e.toString());
 			e.printStackTrace();
+			throw new DAOException(e);
 		} finally {
 			cPool.closeConnection(con, st);
 		}
@@ -468,9 +480,11 @@ public class DBPatientDAO implements PatientDAO {
 		} catch (SQLException e) {
 			logger.error(e.toString());
 			e.printStackTrace();
+			throw new DAOException(e);
 		} catch (ConnectionPoolException e) {
 			logger.error(e.toString());
 			e.printStackTrace();
+			throw new DAOException(e);
 		} finally {
 			cPool.closeConnection(con, st);
 		}
@@ -498,9 +512,11 @@ public class DBPatientDAO implements PatientDAO {
 		} catch (SQLException e) {
 			logger.error(e.toString());
 			e.printStackTrace();
+			throw new DAOException(e);
 		} catch (ConnectionPoolException e) {
 			logger.error(e.toString());
 			e.printStackTrace();
+			throw new DAOException(e);
 		} finally {
 			cPool.closeConnection(con, st);
 		}
@@ -536,15 +552,17 @@ public class DBPatientDAO implements PatientDAO {
 
 			return list;
 		} catch (SQLException e) {
-			e.printStackTrace();
 			logger.error(e.toString());
+			e.printStackTrace();
+			throw new DAOException(e);
 		} catch (ConnectionPoolException e) {
-			e.printStackTrace();
 			logger.error(e.toString());
+			e.printStackTrace();
+			throw new DAOException(e);
 		} finally {
 			cPool.closeConnection(con, stInsert, rs);
 		}
-		return list;
+
 	}
 
 	@Override
@@ -575,9 +593,11 @@ public class DBPatientDAO implements PatientDAO {
 		} catch (SQLException e) {
 			logger.error(e.toString());
 			e.printStackTrace();
+			throw new DAOException(e);
 		} catch (ConnectionPoolException e) {
-			e.printStackTrace();
 			logger.error(e.toString());
+			e.printStackTrace();
+			throw new DAOException(e);
 		}
 
 	}
@@ -599,9 +619,11 @@ public class DBPatientDAO implements PatientDAO {
 		} catch (SQLException e) {
 			logger.error(e.toString());
 			e.printStackTrace();
+			throw new DAOException(e);
 		} catch (ConnectionPoolException e) {
 			logger.error(e.toString());
 			e.printStackTrace();
+			throw new DAOException(e);
 		} finally {
 			cPool.closeConnection(con, st);
 		}
@@ -668,13 +690,14 @@ public class DBPatientDAO implements PatientDAO {
 		} catch (SQLException e) {
 			logger.error(e.toString());
 			e.printStackTrace();
+			throw new DAOException(e);
 		} catch (ConnectionPoolException e) {
 			logger.error(e.toString());
 			e.printStackTrace();
+			throw new DAOException(e);
 		} finally {
 			cPool.closeConnection(con, stInsert, rs);
 		}
-		return list;
 	}
 
 	@Override
@@ -696,9 +719,11 @@ public class DBPatientDAO implements PatientDAO {
 		} catch (SQLException e) {
 			logger.error(e.toString());
 			e.printStackTrace();
+			throw new DAOException(e);
 		} catch (ConnectionPoolException e) {
 			logger.error(e.toString());
 			e.printStackTrace();
+			throw new DAOException(e);
 		} finally {
 			cPool.closeConnection(con, stInsert);
 		}
@@ -745,12 +770,15 @@ public class DBPatientDAO implements PatientDAO {
 		} catch (SQLException e) {
 			logger.error(e.toString());
 			e.printStackTrace();
+			throw new DAOException(e);
 		} catch (ConnectionPoolException e) {
 			logger.error(e.toString());
 			e.printStackTrace();
+			throw new DAOException(e);
 		} catch (IOException e) {
 			logger.error(e.toString());
 			e.printStackTrace();
+			throw new DAOException(e);
 		}
 		finally {
 			cPool.closeConnection(con, stInsert);
@@ -775,9 +803,11 @@ public class DBPatientDAO implements PatientDAO {
 		} catch (SQLException e) {
 			logger.error(e.toString());
 			e.printStackTrace();
+			throw new DAOException(e);
 		} catch (ConnectionPoolException e) {
 			logger.error(e.toString());
 			e.printStackTrace();
+			throw new DAOException(e);
 		}
 		finally {
 			cPool.closeConnection(con, stInsert);
@@ -809,13 +839,14 @@ public class DBPatientDAO implements PatientDAO {
 		} catch (SQLException e) {
 			logger.error(e.toString());
 			e.printStackTrace();
+			throw new DAOException(e);
 		} catch (ConnectionPoolException e) {
 			logger.error(e.toString());
 			e.printStackTrace();
+			throw new DAOException(e);
 		} finally {
 			cPool.closeConnection(con, stInsert, rs);
 		}
-		return list;
 	}
 
 	@Override
@@ -848,9 +879,11 @@ public class DBPatientDAO implements PatientDAO {
 		} catch (SQLException e) {
 			logger.error(e.toString());
 			e.printStackTrace();
+			throw new DAOException(e);
 		} catch (ConnectionPoolException e) {
 			logger.error(e.toString());
 			e.printStackTrace();
+			throw new DAOException(e);
 		} finally {
 			cPool.closeConnection(con, stInsert);
 		}
@@ -865,7 +898,6 @@ public class DBPatientDAO implements PatientDAO {
 		PreparedStatement stInsert = null;
 		
 		try {	
-			System.out.println(diagnos);
 			con = cPool.takeConnection();
 			stInsert = con.prepareStatement(sqlString);
 			stInsert.setString(1, diagnos);
@@ -875,9 +907,11 @@ public class DBPatientDAO implements PatientDAO {
 		} catch (SQLException e) {
 			logger.error(e.toString());
 			e.printStackTrace();
+			throw new DAOException(e);
 		} catch (ConnectionPoolException e) {
 			logger.error(e.toString());
 			e.printStackTrace();
+			throw new DAOException(e);
 		}
 		finally {
 			cPool.closeConnection(con, stInsert);
@@ -903,9 +937,11 @@ public class DBPatientDAO implements PatientDAO {
 		} catch (SQLException e) {
 			logger.error(e.toString());
 			e.printStackTrace();
+			throw new DAOException(e);
 		} catch (ConnectionPoolException e) {
 			logger.error(e.toString());
 			e.printStackTrace();
+			throw new DAOException(e);
 		} finally {
 			cPool.closeConnection(con, stInsert);
 		}
@@ -933,9 +969,11 @@ public class DBPatientDAO implements PatientDAO {
 		} catch (SQLException e) {
 			logger.error(e.toString());
 			e.printStackTrace();
+			throw new DAOException(e);
 		} catch (ConnectionPoolException e) {
 			logger.error(e.toString());
 			e.printStackTrace();
+			throw new DAOException(e);
 		} finally {
 			cPool.closeConnection(con, stInsert);
 		}
@@ -963,9 +1001,11 @@ public class DBPatientDAO implements PatientDAO {
 		} catch (SQLException e) {
 			logger.error(e.toString());
 			e.printStackTrace();
+			throw new DAOException(e);
 		} catch (ConnectionPoolException e) {
 			logger.error(e.toString());
 			e.printStackTrace();
+			throw new DAOException(e);
 		} finally {
 			cPool.closeConnection(con, stInsert);
 		}		
@@ -1004,13 +1044,14 @@ public class DBPatientDAO implements PatientDAO {
 		} catch (SQLException e) {
 			logger.error(e.toString());
 			e.printStackTrace();
+			throw new DAOException(e);
 		} catch (ConnectionPoolException e) {
 			logger.error(e.toString());
 			e.printStackTrace();
+			throw new DAOException(e);
 		} finally {
 			cPool.closeConnection(con, stInsert, rs);
 		}
-		return list;
 	}
 
 	@Override
@@ -1032,9 +1073,11 @@ public class DBPatientDAO implements PatientDAO {
 		} catch (SQLException e) {
 			logger.error(e.toString());
 			e.printStackTrace();
+			throw new DAOException(e);
 		} catch (ConnectionPoolException e) {
 			logger.error(e.toString());
 			e.printStackTrace();
+			throw new DAOException(e);
 		} finally {
 			cPool.closeConnection(con, stInsert);
 		}
@@ -1068,13 +1111,14 @@ public class DBPatientDAO implements PatientDAO {
 		} catch (SQLException e) {
 			logger.error(e.toString());
 			e.printStackTrace();
+			throw new DAOException(e);
 		} catch (ConnectionPoolException e) {
 			logger.error(e.toString());
 			e.printStackTrace();
+			throw new DAOException(e);
 		} finally {
 			cPool.closeConnection(con, stInsert, rs);
 		}
-		return list;
 	}
 
 	@Override
@@ -1103,13 +1147,14 @@ public class DBPatientDAO implements PatientDAO {
 		} catch (SQLException e) {
 			logger.error(e.toString());
 			e.printStackTrace();
+			throw new DAOException(e);
 		} catch (ConnectionPoolException e) {
 			logger.error(e.toString());
 			e.printStackTrace();
+			throw new DAOException(e);
 		} finally {
 			cPool.closeConnection(con, stInsert, rs);
 		}
-		return list;
 	}
 
 	@Override
@@ -1132,9 +1177,11 @@ public class DBPatientDAO implements PatientDAO {
 		} catch (SQLException e) {
 			logger.error(e.toString());
 			e.printStackTrace();
+			throw new DAOException(e);
 		} catch (ConnectionPoolException e) {
 			logger.error(e.toString());
 			e.printStackTrace();
+			throw new DAOException(e);
 		} finally {
 			cPool.closeConnection(con, st);
 		}
@@ -1173,13 +1220,14 @@ public class DBPatientDAO implements PatientDAO {
 		} catch (SQLException e) {
 			logger.error(e.toString());
 			e.printStackTrace();
+			throw new DAOException(e);
 		} catch (ConnectionPoolException e) {
 			logger.error(e.toString());
 			e.printStackTrace();
+			throw new DAOException(e);
 		} finally {
 			cPool.closeConnection(con, stInsert, rs);
 		}
-		return map;
 	}
 
 	@Override
@@ -1200,9 +1248,11 @@ public class DBPatientDAO implements PatientDAO {
 		} catch (SQLException e) {
 			logger.error(e.toString());
 			e.printStackTrace();
+			throw new DAOException(e);
 		} catch (ConnectionPoolException e) {
 			logger.error(e.toString());
 			e.printStackTrace();
+			throw new DAOException(e);
 		} finally {
 			cPool.closeConnection(con, stInsert);
 		}		
@@ -1227,9 +1277,11 @@ public class DBPatientDAO implements PatientDAO {
 		} catch (SQLException e) {
 			logger.error(e.toString());
 			e.printStackTrace();
+			throw new DAOException(e);
 		} catch (ConnectionPoolException e) {
 			logger.error(e.toString());
 			e.printStackTrace();
+			throw new DAOException(e);
 		} finally {
 			cPool.closeConnection(con, stInsert);
 		}		
@@ -1265,15 +1317,16 @@ public class DBPatientDAO implements PatientDAO {
 
 			return list;
 		} catch (SQLException e) {
-			e.printStackTrace();
 			logger.error(e.toString());
+			e.printStackTrace();
+			throw new DAOException(e);
 		} catch (ConnectionPoolException e) {
-			e.printStackTrace();
 			logger.error(e.toString());
+			e.printStackTrace();
+			throw new DAOException(e);
 		} finally {
 			cPool.closeConnection(con, stInsert, rs);
 		}
-		return list;
 	}
 
 	@Override
@@ -1309,13 +1362,14 @@ public class DBPatientDAO implements PatientDAO {
 		} catch (SQLException e) {
 			logger.error(e.toString());
 			e.printStackTrace();
+			throw new DAOException(e);
 		} catch (ConnectionPoolException e) {
 			logger.error(e.toString());
 			e.printStackTrace();
+			throw new DAOException(e);
 		} finally {
 			cPool.closeConnection(con, stInsert, rs);
 		}
-		return list;
 	}
 
 	@Override
@@ -1351,13 +1405,14 @@ public class DBPatientDAO implements PatientDAO {
 		} catch (SQLException e) {
 			logger.error(e.toString());
 			e.printStackTrace();
+			throw new DAOException(e);
 		} catch (ConnectionPoolException e) {
 			logger.error(e.toString());
 			e.printStackTrace();
+			throw new DAOException(e);
 		} finally {
 			cPool.closeConnection(con, stInsert, rs);
 		}
-		return set;
 	}	
 }
 

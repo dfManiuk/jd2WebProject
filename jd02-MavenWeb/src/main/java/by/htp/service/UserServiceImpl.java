@@ -50,9 +50,7 @@ private static final Logger logger = LogManager.getLogger(UserServiceImpl.class.
 			Iterator<Entry<Integer, List<Object>>> iterator = map.entrySet().iterator();			
 			while (iterator.hasNext()) {
 				Entry<Integer, List<Object>> entrySetHashMap = iterator.next();
-				
-				System.out.println("Key: " + entrySetHashMap.getKey() + " Value: " + entrySetHashMap.getValue());
-				
+							
 				ArrayList<Object> list = (ArrayList<Object>) entrySetHashMap.getValue();
 				
 				dateTempFromMap = (Date)list.get(1);
@@ -64,8 +62,7 @@ private static final Logger logger = LogManager.getLogger(UserServiceImpl.class.
 						"<>" +"timeCurrent = " + timeCurrentFromUse.toString());
 				
 				comparator = dateTempFromUse.compareTo(timeCurrentFromUse);
-			if (comparator < 0) {
-				System.out.println("����� �������");				
+			if (comparator < 0) {				
 				int idPatient = (Integer) list.get(3);
 				
 					try {
@@ -113,8 +110,6 @@ private static final Logger logger = LogManager.getLogger(UserServiceImpl.class.
 		if (!validator.checEditProfile(user)) {
 			throw new ServiceException("Exception");
 		}
-		System.out.println(user.toString());
-		
 		
 		UserDAO userDao = DAOProvider.getInstance().getUserDAO();
 	
