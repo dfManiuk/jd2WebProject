@@ -22,11 +22,8 @@ public class UserEditProfile implements ICommand {
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
-	
-		System.out.println("USerEditProfile");
-		
-	
+
+			
 		String login = request.getParameter(RequestParameterName.NICK_NAME);
 		String password = request.getParameter(RequestParameterName.PASSWORD);
 		
@@ -37,9 +34,7 @@ public class UserEditProfile implements ICommand {
 		user.setPassword(password);
 		
 		UserService userService = ServiceProvider.getInstance().getUserService();
-		
-		System.out.println(user.toString());
-		
+	
 		try {
 			
 			user = userService.editProfile(user);
@@ -50,7 +45,6 @@ public class UserEditProfile implements ICommand {
 			dispatcher.forward(request, response);
 		
 		} catch (ServiceException e) {
-			
 			e.printStackTrace();
 		}	
 		return JspPageName.MAIN_PAGE;

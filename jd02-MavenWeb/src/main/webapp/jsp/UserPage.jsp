@@ -8,7 +8,6 @@
 <%
 String name = "User";
 User user = (User) request.getAttribute(name);
-System.out.print(user.toString());
 %>
 <fmt:setLocale value="${sessionScope.local}" />
 <fmt:setBundle basename="local" var="loc" />

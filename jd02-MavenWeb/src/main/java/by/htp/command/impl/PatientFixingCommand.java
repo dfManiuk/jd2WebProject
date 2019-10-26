@@ -18,6 +18,8 @@ import by.htp.service.UserService;
 
 public class PatientFixingCommand implements ICommand {
 
+	private String	page = JspPageName.USER_PAGE;
+	
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -29,16 +31,13 @@ public class PatientFixingCommand implements ICommand {
 				
 			String fixPatient = request.getParameter(RequestParameterName.FIX_PATIENT);
 			String fixUser = request.getParameter(RequestParameterName.FIX_USER);
-			patientService.fixing(fixUser, fixPatient);
+			if (null != fixPatient && null !=fixUser ) {
+				patientService.fixing(fixUser, fixPatient);
+			}
 				
 			List<Doctor> list =	userService.findAllDoctors();
 			List<Patient> listPatients = patientService.giveAllPatients();
 			
-//			List<Patient> result = listPatients.stream().filter(a -> a.getIdPatient()== 24).collect(Collectors.toList());
-		
-			for (Doctor doctor : list) {
-				System.out.println(doctor.toString());
-			}
 			
 			if (list != null) {
 				
@@ -54,15 +53,13 @@ public class PatientFixingCommand implements ICommand {
 				
 			} else {
 
-		   String	page = JspPageName.USER_PAGE;
-				
 			response.sendRedirect(page);
 			}
 		} catch (ServiceException e) {
-			// TODO Auto-generated catch block
+			// TODO 
 			e.printStackTrace();
 		}
-		return null;
+		return page;
 	}
 
 }

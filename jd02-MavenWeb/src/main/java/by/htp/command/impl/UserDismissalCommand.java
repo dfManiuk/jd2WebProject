@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import by.htp.command.ICommand;
+import by.htp.command.SessionCommands;
 import by.htp.controller.JspPageName;
 import by.htp.entity.User;
 import by.htp.service.ServiceException;
@@ -17,15 +18,13 @@ public class UserDismissalCommand implements ICommand {
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		
-		User user = null;
+			throws ServletException, IOException {	
 		
 		if (request.getSession() == null) {
 			response.sendRedirect(JspPageName.MAIN_PAGE);
 		}
 		HttpSession session = request.getSession();
-		user = (User) session.getAttribute("UserSession");
+		User user = (User) session.getAttribute(SessionCommands.USER_SESSION);
 		
 		UserService userService = ServiceProvider.getInstance().getUserService();
 		
@@ -33,9 +32,9 @@ public class UserDismissalCommand implements ICommand {
 
 			userService.updateUserOutOf(user.getId());
 			
-			if (user.getPosition().equals("заведующий")) { 						
+			if (user.getPosition().equals(SessionCommands.CHEFF)) { 						
 				
-				request.setAttribute("User", user);
+				request.setAttribute(SessionCommands.USER, user);
 				RequestDispatcher dispatcher = request.getRequestDispatcher(JspPageName.USER_PAGE);
 				dispatcher.forward(request, response);					
 			} else {
@@ -44,7 +43,7 @@ public class UserDismissalCommand implements ICommand {
 			dispatcher.forward(request, response);
 			}
 		} catch (ServiceException e) {
-			// TODO Auto-generated catch block
+			// TODO 
 			e.printStackTrace();
 		}
 		return "jsp/dischangePage.jsp";

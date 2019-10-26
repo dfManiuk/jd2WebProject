@@ -17,19 +17,18 @@ public class BackUserPageCommand implements ICommand {
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
-		User user = null;
 		
 		if (request.getSession() == null) {
 			response.sendRedirect(JspPageName.MAIN_PAGE);
 		}
 		HttpSession session = request.getSession();
-		user = (User) session.getAttribute("UserSession");
+		User user = (User) session.getAttribute("UserSession");
 												
 				request.setAttribute("User", user);
 				RequestDispatcher dispatcher = request.getRequestDispatcher(JspPageName.USER_PAGE);
 				dispatcher.forward(request, response);			
 						
-		return JspPageName.DISCHANGE_PAGE;	
+		return JspPageName.USER_PAGE;	
 	}
 
 }

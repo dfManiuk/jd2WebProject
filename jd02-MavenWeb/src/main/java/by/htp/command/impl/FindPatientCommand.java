@@ -53,7 +53,7 @@ public class FindPatientCommand implements ICommand {
 			dispatcher.forward(request, response);
 			}
 		} catch (ServiceException e) {
-			// TODO Auto-generated catch block
+			// TODO 
 			e.printStackTrace();
 		}
 		return page;

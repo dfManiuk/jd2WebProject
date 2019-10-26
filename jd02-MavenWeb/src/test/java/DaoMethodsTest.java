@@ -25,9 +25,7 @@ public class DaoMethodsTest {
 			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();}	
-		
-		
+			e.printStackTrace();}			
 	}
 	
 	@Test
@@ -56,8 +54,7 @@ public class DaoMethodsTest {
 
 		Assert.assertEquals(user, newUser);
 		
-	} catch (Exception e) {
-		
+	} catch (Exception e) {	
 		e.printStackTrace();
 	} 
 }
@@ -91,61 +88,5 @@ public class DaoMethodsTest {
 		}	
 		
 	}
-	
-	
-	
-	/* @Test
-	public void testDaoNoBase() {
-		
-		try {
-			FileInputStream in = new FileInputStream("src/test/java/db.properties");
-			Properties props = new Properties();
-			props.load(in);
-		
-			props.setProperty("db.url", "THIS LINE GENERATED JUNIT TEST");
-			in.close();
-			
-			FileOutputStream out = new FileOutputStream("src/test/java/db.properties");
-			props.store(out, null);
-			out.close();
-			
-			User user = userDAO.autorization("test_login", "test_password");		
-			String name = user.getName();
-			UserDAO userDAONoBase =  DAOProvider.getInstance().getUserDAO();
-			User userNobase = userDAONoBase.autorization("test_login", "test_password");	
-			
-			Assert.assertEquals(name, userNobase.getName());
-			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}	catch(ServiceException ex) {
-			ex.printStackTrace();
-		} catch(DAOException ex) {
-			ex.printStackTrace();
-		} finally {
-			FileInputStream in2;
-			try {
-				in2 = new FileInputStream("src/test/java/db.properties");
-			
-			Properties props2 = new Properties();
-			props2.load(in2);
-		
-			props2.setProperty("db.url", "jdbc:mysql://localhost:3306/test_jd2?useUnicode=true&serverTimezone=UTC");
-			in2.close();
-			
-			FileOutputStream out2 = new FileOutputStream("src/test/java/db.properties");
-			props2.store(out2, null);
-			out2.close();
-			
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	} */
-
 
 }

@@ -18,11 +18,13 @@ import by.htp.service.UserService;
 public class UserRegistration implements ICommand {
 
 
+	final String page = JspPageName.REGISTRATION; 
+	final String pageUser = JspPageName.USER_PAGE;
+	
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	
 	User newUser=null;
-	String page = null;
 
 	String login = request.getParameter(RequestParameterName.NICK_NAME);
 	String password = request.getParameter(RequestParameterName.PASSWORD);
@@ -37,41 +39,37 @@ public class UserRegistration implements ICommand {
 	newUser.setPosition(position);
 	newUser.setSpecialization(specialization);
 	
-	System.out.println(newUser.toString());
-	
-	HttpSession session = request.getSession();
-	session.setAttribute("local", request.getParameter("local"));
+	HttpSession session = request.getSession(true);
+	if (request.getParameter("local") != null) {
+		session.setAttribute("local", request.getParameter("local"));	
+		RequestDispatcher dispatcher = request.getRequestDispatcher(page);
+		dispatcher.forward(request, response);
+	}
 	
 	UserService userService = ServiceProvider.getInstance().getUserService();
 	
 	try {
 		newUser = userService.registration(newUser);
 		
-		if (newUser != null && newUser.getId() != 0) {
-			session = request.getSession();
+		if (null != newUser ) {
+			
 			session.setAttribute("User", newUser);
 			request.setAttribute("User", newUser);
-		
-		page = JspPageName.USER_PAGE;
-		
-		RequestDispatcher dispatcher = request.getRequestDispatcher(page);
+				
+		RequestDispatcher dispatcher = request.getRequestDispatcher(pageUser);
 		dispatcher.forward(request, response);
 		} else {
 			request.setAttribute("NullUser", "nullUserRequest");
-			page = JspPageName.REGISTRATION; 
-				
+ 			
 			RequestDispatcher dispatcher = request.getRequestDispatcher(page);
 			dispatcher.forward(request, response);
 		}
-			
-		
-	
-	} catch (ServiceException e) {
-		
+
+	} catch (ServiceException e) {	
 		e.printStackTrace();
 	} 
 	
-	return page;
+	return pageUser;
 }
 	}
 

@@ -5,10 +5,10 @@ import java.util.Set;
 
 public class JSPSetBean {
 
-	private Iterator it;	
-	private Set set;
+	private Iterator<?> it;	
+	private Set<?> set;
 	
-	public JSPSetBean(Set set) {
+	public JSPSetBean(Set<?> set) {
 		this.set = set;
 	}
 	

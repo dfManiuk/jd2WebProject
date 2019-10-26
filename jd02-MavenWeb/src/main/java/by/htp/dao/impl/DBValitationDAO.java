@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import by.htp.dao.DAOException;
 import by.htp.dao.SQLCommands;
 import by.htp.dao.ValidatorDAO;
 import by.htp.pool.ConnectionPool;
@@ -18,7 +19,7 @@ public class DBValitationDAO implements ValidatorDAO {
 	private static final Logger logger = LogManager.getLogger(DBValitationDAO.class.getName());	
 	
 	@Override
-	public boolean checkSpecialization(String specialization) {
+	public boolean checkSpecialization(String specialization) throws DAOException {
 		Connection con=null;
 		PreparedStatement st=null;
 		ResultSet rs=null;
@@ -44,8 +45,12 @@ public class DBValitationDAO implements ValidatorDAO {
 	    	}
 		} catch (SQLException e) {
 			logger.error(e.toString());
+			e.printStackTrace();
+			throw new DAOException(e);	
 		} catch (ConnectionPoolException e) {
 			logger.error(e.toString());
+			e.printStackTrace();
+			throw new DAOException(e);	
 		}finally {	
 			cPool.closeConnection(con, st);
 		}
@@ -54,7 +59,7 @@ public class DBValitationDAO implements ValidatorDAO {
 	}
 
 	@Override
-	public boolean forTest(String sqlCommand) {
+	public boolean forTest(String sqlCommand) throws DAOException {
 		Connection con=null;
 		PreparedStatement st=null;	
 		ConnectionPool cPool = ConnectionPool.getInstance();
@@ -66,8 +71,12 @@ public class DBValitationDAO implements ValidatorDAO {
     		
 	} catch (SQLException e) {
 		logger.error(e.toString());
+		e.printStackTrace();
+		throw new DAOException(e);	
 	} catch (ConnectionPoolException e) {
 		logger.error(e.toString());
+		e.printStackTrace();
+		throw new DAOException(e);	
 	}finally {	
 		cPool.closeConnection(con, st);
 	}

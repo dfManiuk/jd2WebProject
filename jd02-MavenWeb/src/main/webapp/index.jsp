@@ -24,7 +24,7 @@
 <body>	
 <div id="centerLayer">
 		<h1>Вход в систему</h1>
-		<form class="transparent" action="check-user" method="post">
+		<form class="transparent" method="post">
 	<input type="hidden" name="command" value="logination" />
    <div class="form-inner">
     <h3>ЛОГИНАЦИЯ</h3>

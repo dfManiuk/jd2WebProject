@@ -52,9 +52,13 @@ public class Controller extends HttpServlet {
 
 		String commandName;
 		if ((commandName = request.getParameter(RequestParameterName.COMMAND_NAME)) != null) {
-
+			
 			ICommand command = CommandHelper.getInstance().getCommand(commandName);
 			command.execute(request, response);
+		} else if ((commandName = request.getParameter(RequestParameterName.LANGUAGE))  != null && commandName != RequestParameterName.LANGUAGE_CHANGE){
+			ICommand command = CommandHelper.getInstance().getCommand(commandName);
+			command.execute(request, response);
+
 		} else {
 			DiskFileItemFactory factory = new DiskFileItemFactory();
 			ServletContext servletContext = this.getServletConfig().getServletContext();

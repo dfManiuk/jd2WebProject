@@ -84,7 +84,7 @@ public class AllPatientsCommand implements ICommand {
 			
 			}
 		} catch (ServiceException e) {
-			// TODO Auto-generated catch block
+			// TODO
 			e.printStackTrace();
 		}
 		return JspPageName.MAIN_PAGE;	

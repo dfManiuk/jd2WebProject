@@ -21,17 +21,24 @@ import by.htp.service.ServiceProvider;
 
 public class PatientDischangeCommand implements ICommand {
 
+	final String page = "jsp/dischangePage.jsp";
+	final String pageUser = JspPageName.USER_PAGE;
+	
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+	
 		User user = null;
 		Patient patient = null;
-		String page = null;
 		Medication medication = null;
 		byte[] imageBytes = null;
 		
-		
 		HttpSession session = request.getSession();
+		
+		if (request.getParameter("local") != null) {
+			session.setAttribute("local", request.getParameter("local"));	
+		}
+		
 		user = (User) session.getAttribute("UserSession");
 		
 		String passport = request.getParameter(RequestParameterName.NAME);
@@ -54,8 +61,6 @@ public class PatientDischangeCommand implements ICommand {
 					String base64Image = Base64.getEncoder().encodeToString(imageBytes);
 					request.setAttribute("base64Image", base64Image);
 				}
-				
-					page = "jsp/dischangePage.jsp";
 											
 				RequestDispatcher dispatcher = request.getRequestDispatcher(page);
 				dispatcher.forward(request, response);
@@ -64,13 +69,12 @@ public class PatientDischangeCommand implements ICommand {
 				
 			} else {
 
-			page = JspPageName.USER_PAGE;
 				
-			RequestDispatcher dispatcher = request.getRequestDispatcher(page);
+			RequestDispatcher dispatcher = request.getRequestDispatcher(pageUser);
 			dispatcher.forward(request, response);
 			}
 		} catch (ServiceException e) {
-			// TODO Auto-generated catch block
+			// TODO 
 			e.printStackTrace();
 		}
 		return page;

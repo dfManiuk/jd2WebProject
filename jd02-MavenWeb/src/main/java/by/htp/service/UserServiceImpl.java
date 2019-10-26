@@ -57,9 +57,9 @@ private static final Logger logger = LogManager.getLogger(UserServiceImpl.class.
 				dateTempFromMap = new Date(dateTempFromMap.getTime()-3*HOUR); 
 				dateTempFromUse = new Date(dateTempFromMap.getTime() + (24/(int) list.get(2) * HOUR));
 				timeCurrentFromUse = new Date(timeCurrent.getTime()-3*HOUR);
-							
-				System.out.println(  "dateTempFromUse = " + dateTempFromUse + "<>" +"dateTempFromMap = "+ dateTempFromMap + 
-						"<>" +"timeCurrent = " + timeCurrentFromUse.toString());
+//							
+//				System.out.println(  "dateTempFromUse = " + dateTempFromUse + "<>" +"dateTempFromMap = "+ dateTempFromMap + 
+//						"<>" +"timeCurrent = " + timeCurrentFromUse.toString());
 				
 				comparator = dateTempFromUse.compareTo(timeCurrentFromUse);
 			if (comparator < 0) {				

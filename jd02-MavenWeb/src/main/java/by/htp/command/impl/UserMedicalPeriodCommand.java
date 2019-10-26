@@ -103,7 +103,7 @@ public class UserMedicalPeriodCommand implements ICommand {
 			response.sendRedirect(page);
 			}
 		} catch (ServiceException e) {
-			// TODO Auto-generated catch block
+			// TODO 
 			e.printStackTrace();
 		}
 		return page;

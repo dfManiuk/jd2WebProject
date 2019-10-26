@@ -1,7 +1,8 @@
 package by.htp.dao;
 
 public interface ValidatorDAO {
-	boolean checkSpecialization(String specialization);
 	
-	boolean forTest(String sqlCommand);
+	boolean checkSpecialization(String specialization) throws DAOException;
+	
+	boolean forTest(String sqlCommand)throws DAOException; 
 }

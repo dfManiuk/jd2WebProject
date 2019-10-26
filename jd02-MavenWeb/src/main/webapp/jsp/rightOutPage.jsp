@@ -37,10 +37,6 @@
 		</tr>
 	</table>
 
-
-<h1>!!!!!!!!!!!!!!!!!!!!!!!!!!!!</h1>
-
-
 	<table border="1">
 	<jsp:useBean id="Card" class="by.htp.entity.Card"	type="java.lang.Object" scope="request" />
 		<caption>Данные учетной карты</caption>
@@ -61,11 +57,11 @@
 
 					</form></td>
 				<td>
-		<form name="command" action="controller" method = "post" enctype = "multipart/form-data">
+	<!-- 	<form name="command" action="controller" method = "post" enctype = "multipart/form-data">
          <input type = "file" name = "file" size = "50" />
          <br />
          <input type = "submit" value = "upload_file" />
-      </form>				
+      </form> -->				
       </td>	
 			</tr>
 	</table>

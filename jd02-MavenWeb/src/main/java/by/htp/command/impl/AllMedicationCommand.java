@@ -46,11 +46,11 @@ public class AllMedicationCommand implements ICommand {
 				response.sendRedirect(JspPageName.USER_PAGE);
 			}
 		}catch (ServiceException e) {
-				// TODO Auto-generated catch block
+				// 
 				e.printStackTrace();
 		}
 			
-		return null;
+		return JspPageName.PATIENT_CARD_PAGE;
 	}
 
 }

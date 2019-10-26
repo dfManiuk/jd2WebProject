@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import by.htp.command.ICommand;
+import by.htp.command.SessionCommands;
 import by.htp.controller.JspPageName;
 import by.htp.entity.Medication;
 import by.htp.entity.Patient;
@@ -19,7 +20,9 @@ import by.htp.service.ServiceProvider;
 
 public class AddMedicationCommand implements ICommand {
 
-	private static final String error = "Add medication ERROR";
+	private final String error = "Add medication ERROR";
+	private final String options = "options";
+	private final String med = "med";
 	
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
@@ -33,18 +36,18 @@ public class AddMedicationCommand implements ICommand {
 		
 		HttpSession session = request.getSession();
 	
-		user = (User) session.getAttribute("UserSession");
-		patient = (Patient) session.getAttribute("Patient");
+		user = (User) session.getAttribute(SessionCommands.USER_SESSION);
+		patient = (Patient) session.getAttribute(SessionCommands.PATIENT);
 				
-		String userOptions = request.getParameter("options");
-		String userMedi = request.getParameter("med");
+		String userOptions = request.getParameter(options);
+		String userMedi = request.getParameter(med);
 			
 		medication = new Medication();
-		if (userOptions.equals("procedure") ) {
+		if (userOptions.equals(SessionCommands.PROCEDURE_MEDICATION) ) {
 			medication.setProcedure(userMedi);
-		} else if (userOptions.equals("medication") ) {
+		} else if (userOptions.equals(SessionCommands.MEDICATION_MEDICATION) ) {
 			medication.setMedication(userMedi);
-		} else if (userOptions.equals("operation")) {
+		} else if (userOptions.equals(SessionCommands.OPERATION_MEDICATION)) {
 			medication.setOperation(userMedi);
 		}
 		medication.setIdUser(user.getId());
@@ -55,14 +58,14 @@ public class AddMedicationCommand implements ICommand {
 			medication = patientService.getPatientMedications(patient);
 			imageBytes = patientService.getPhoto(patient.getIdPatient());
 			
-			if (patient != null && patient.getIdPatient() !=0 ) {
+			if (patient.getIdPatient() !=0 ) {
 								
-				request.setAttribute("Patient", patient);
-				request.setAttribute("Medications", medication);
+				request.setAttribute(SessionCommands.PATIENT, patient);
+				request.setAttribute(SessionCommands.MEDICATIONS, medication);
 				
 				if (imageBytes != null) {
 					String base64Image = Base64.getEncoder().encodeToString(imageBytes);
-					request.setAttribute("base64Image", base64Image);
+					request.setAttribute(SessionCommands.BASE64IMAGE, base64Image);
 				}
 				
 				RequestDispatcher dispatcher = request.getRequestDispatcher(JspPageName.PATIENT_PAGE);

@@ -5,13 +5,11 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 import by.htp.command.ICommand;
 import by.htp.controller.JspPageName;
 import by.htp.controller.RequestParameterName;
@@ -33,7 +31,7 @@ public class AllDischangedPatientsCommand implements ICommand {
 		String startS;
 		int countPatientsTableLine = 0;
 		
-		HttpSession session = request.getSession();
+		HttpSession session = request.getSession(true);
 		
 		if (( delim = request.getParameter(RequestParameterName.DELIMETER_LIST_OF_PATIENTS)) != null) {
 			delimeter = Integer.parseInt(delim);
@@ -54,7 +52,7 @@ public class AllDischangedPatientsCommand implements ICommand {
 			
 			JSPSetBean jsp = new JSPSetBean(set);
 			
-			if (listDischangedPatients != null && session == null ) { 
+			if (listDischangedPatients != null && session != null ) { 
 				
 				Collections.sort(listDischangedPatients, new Comparator<Patient>() {
 					@Override
@@ -86,7 +84,7 @@ public class AllDischangedPatientsCommand implements ICommand {
 			
 			}
 		} catch (ServiceException e) {
-			// TODO Auto-generated catch block
+			// TODO 
 			e.printStackTrace();
 		}
 		return JspPageName.MAIN_PAGE;	

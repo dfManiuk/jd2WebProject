@@ -55,6 +55,7 @@ public class DBUserDAO implements UserDAO {
 				user.setLogin(rs.getString(5));
 				user.setPassword(rs.getString(6));
 	    	}
+	    	 logger.info("LogLogination " + user.getLogin());
 				 return user;
 			
 		} catch (SQLException e) {

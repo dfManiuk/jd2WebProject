@@ -3,6 +3,31 @@
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@page import="java.util.ArrayList"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<fmt:setLocale value="${sessionScope.local}" />
+<fmt:setBundle basename="local" var="loc" />
+<fmt:message bundle="${loc}" key="local.locbutton.name.ru"
+	var="ru_button" />
+<fmt:message bundle="${loc}" key="local.locbutton.name.en"
+	var="en_button" />
+<fmt:message bundle="${loc}" key="local.locLine.patient.page.personal" var="personal" />
+<fmt:message bundle="${loc}" key="local.locLine.user.page.fio" var="fio" />
+<fmt:message bundle="${loc}" key="local.locLine.patient.date" var="birth_date" />
+<fmt:message bundle="${loc}" key="local.locLine.patient.location" var="location" />
+<fmt:message bundle="${loc}" key="local.locLine.patient.telephone" var="telephone" />
+<fmt:message bundle="${loc}" key="local.locLine.patient.page.photo" var="photo" />
+<fmt:message bundle="${loc}" key="local.locLine.user.epicrisis" var="epicrisis" />
+<fmt:message bundle="${loc}" key="local.locLine.user.epicrisis.select" var="epicrisis_list" />
+<fmt:message bundle="${loc}" key="local.locLine.user.epicrisis.disease" var="disease" />
+<fmt:message bundle="${loc}" key="local.locLine.user.epicrisis.extract" var="extract" />
+<fmt:message bundle="${loc}" key="local.locbutton.ok" var="ok" />
+<fmt:message bundle="${loc}" key="local.locLine.patient.epicrisis.extract" var="prepare" />
+<fmt:message bundle="${loc}" key="local.locLine.patient.diagnosis" var="diagnosis" />
+<fmt:message bundle="${loc}" key="local.locLine.patient.return" var="return_page" />
+<fmt:message bundle="${loc}" key="local.locLine.patient.appointments.all" var="appointments_all" />
+<fmt:message bundle="${loc}" key="local.locLine.patient.page.procedures" var="procedures" />
+<fmt:message bundle="${loc}" key="local.locLine.patient.page.medications" var="medication" />
+<fmt:message bundle="${loc}" key="local.locLine.patient.page.operation" var="operation" />
 <!DOCTYPE html>
 <html>
 <head>
@@ -27,21 +52,33 @@
 	media="screen" />
 </head>
 <body>
-
+<jsp:useBean id="Patient" class="by.htp.entity.Patient"
+				type="java.lang.Object" scope="request" />
+<form action="controller" method="post">
+		<input type="hidden" name="language" value="live" /> <input
+			type="hidden" name="local" value="ru" />
+			<input type="hidden" name="name" value="${Patient.passport}">
+			 <input type="submit"
+			value="${ru_button}">
+	</form>
+	<form action="controller" method="post">
+		<input type="hidden" name="language" value="live" />
+		<input type="hidden" name="name" value="${Patient.passport}">
+		 <input	type="hidden" name="local" value="en" /> <input type="submit"
+			value="${en_button}">
+	</form>
 <table border="1">
-	<caption>Персональные данные пациента</caption>
+	<caption>${personal}</caption>
 		<thead>
 			<tr>
-				<th>Имя пациента</th>
-				<th>Дата рождения</th>
-				<th>Место жительства</th>
-				<th>Телефон</th>
-				<th>Фото</th>
+				<th>${fio}</th>
+				<th>${birth_date}</th>
+				<th>${location}</th>
+				<th>${telephone}</th>
+				<th>${photo}</th>
 			</tr>
 		</thead>
 		<tr>
-			<jsp:useBean id="Patient" class="by.htp.entity.Patient"
-				type="java.lang.Object" scope="request" />
 		<td>	<jsp:getProperty property="name" name="Patient" /> </td>
 		<td>	<jsp:getProperty property="data" name="Patient" /></td>
 		<td>	<jsp:getProperty property="adress" name="Patient" /></td>
@@ -54,13 +91,13 @@
 	</table>
 
 	<table border="1">
-		<caption>"Эпикриз"</caption>
+		<caption>"${epicrisis}"</caption>
 		<thead>
 			<tr>
-				<th>Выбрать заболевание из списка</th>
-				<th>Заболевание</th>
+				<th>${epicrisis_list}</th>
+				<th>${disease}</th>
 				<c:if test="${requestScope.Flag == true}">
-				<th>Подготовить выписку</th>
+				<th>${extract}</th>
 				</c:if>
 			</tr>
 		</thead>
@@ -76,7 +113,7 @@
 						</c:forEach>
 					</select> <input type="hidden" value="${currentDiagnos}" /> 
 					<input type="hidden" name="passport" value="${Patient.passport}" />
-					<input	type="submit" value="Применить">
+					<input	type="submit" value="${ok}">
 				</form>
 			</td>
 			<td>
@@ -84,16 +121,16 @@
 						<input type="hidden" name="command" value="diagnosis" />
 						<input type="hidden" name="passport" value="${Patient.passport}" />
 						<input name="diagnos" name=""> <input type="submit"
-							value="Применить">
+							value="${ok}">
 					</form>
 			</td>
 			<c:if test="${requestScope.Flag == true}">
 			<td>	
-				диагноз: ${requestScope.Diagnos}		
+				${diagnosis} ${requestScope.Diagnos}		
 			<form action="controller" method="post">
 						<input type="hidden" name="command" value="right_out" />
 						<input type="hidden" name="passport" value="${Patient.passport}" />
-						 <input type="submit" value="Подготовить">
+						 <input type="submit" value="${prepare}">
 					</form>
 			</td>
 			</c:if>
@@ -102,7 +139,7 @@
 				<th>
 					<form action="controller" method="post">
 						<input type="hidden" name="command" value="back_user_page" /> <input
-							type="submit" value="Вернутся на персональную страницу" style="height:50px; width:250px" class="b1">
+							type="submit" value="${return_page}" style="height:50px; width:250px" class="b1">
 							
 					</form>
 				</th>
@@ -112,12 +149,12 @@
 
 
 	<table border="1">
-		<caption>Предыдущие и текущие назначения</caption>
+		<caption>${appointments_all}</caption>
 		<thead>
 			<tr>
-				<th>Процедуры</th>
-				<th>Лекарства</th>
-				<th>Операции</th>
+				<th>${procedures}</th>
+				<th>${medication}</th>
+				<th>${operation}</th>
 			</tr>
 		</thead>
 

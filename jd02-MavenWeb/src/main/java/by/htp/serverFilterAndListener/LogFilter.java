@@ -44,10 +44,10 @@ public class LogFilter implements Filter{
 		String page = JspPageName.USER_PAGE;
 		
 		if ((commandName = request.getParameter(RequestParameterName.LANGUAGE)) != null ) {	
-			
+						
 		if (commandName.equalsIgnoreCase(RequestParameterName.LANGUAGE_CHANGE)) {
 		
-		String local =request.getParameter("local");
+		String local = request.getParameter("local");
 			
 		session = ((HttpServletRequest) request).getSession();	
 		User user = (User) session.getAttribute("UserSession");	
@@ -56,28 +56,23 @@ public class LogFilter implements Filter{
 		
 		Cookie[] cookies = ((HttpServletRequest) request).getCookies();
         String cookieName = "local";
-        Cookie cookie = null;
         if(cookies !=null) {
             for(Cookie c: cookies) {
                 if(cookieName.equals(c.getName())) {
-                    cookie = c;
                     break;
                     
                 }
              }
 	
             
-		 request.getRequestDispatcher(page).forward(request, response);
+		request.getRequestDispatcher(page).forward(request, response);
 		 
 		 logger.info("LogFilter " + request.getParameter("local"));
-	
+		 chain.doFilter(request, response);
 		}	
 	}
 		}
 		chain.doFilter(request, response);
-      
-            //request.getRequestDispatcher("../index.jsp").forward(request, response);
-          //  ((HttpServletResponse) response).sendRedirect(((HttpServletResponse) response).encodeRedirectURL("../index.jsp"));
         
 	}
 

@@ -2,6 +2,33 @@
     pageEncoding="UTF-8"%>
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"  %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<fmt:setLocale value="${sessionScope.local}" />
+<fmt:setBundle basename="local" var="loc" />
+<fmt:message bundle="${loc}" key="local.locbutton.name.ru"
+	var="ru_button" />
+<fmt:message bundle="${loc}" key="local.locbutton.name.en"
+	var="en_button" />
+	<fmt:message bundle="${loc}" key="local.locLine.user.page.fio" var="fio" />
+<fmt:message bundle="${loc}" key="local.locLine.patient.date" var="birth_date" />
+<fmt:message bundle="${loc}" key="local.locLine.patient.location" var="location" />
+<fmt:message bundle="${loc}" key="local.locLine.patient.telephone" var="telephone" />
+<fmt:message bundle="${loc}" key="local.locLine.patient.page.personal" var="personal" />
+<fmt:message bundle="${loc}" key="local.locLine.patient.page.photo" var="photo" />
+<fmt:message bundle="${loc}" key="local.locLine.patient.page.procedures" var="procedures" />
+<fmt:message bundle="${loc}" key="local.locLine.patient.page.procedure" var="procedure" />
+<fmt:message bundle="${loc}" key="local.locLine.patient.page.procedure.actions" var="actions" />
+<fmt:message bundle="${loc}" key="local.locLine.done" var="done" />
+<fmt:message bundle="${loc}" key="local.locLine.cancel" var="cancel" />
+<fmt:message bundle="${loc}" key="local.locbutton.ok" var="ok" />
+<fmt:message bundle="${loc}" key="local.locLine.patient.page.medications" var="medications" />
+<fmt:message bundle="${loc}" key="local.locLine.patient.page.medication" var="medication" />
+<fmt:message bundle="${loc}" key="local.locLine.patient.page.medications.actions" var="actions_medication" />
+<fmt:message bundle="${loc}" key="local.locLine.name" var="locLine_name" />
+<fmt:message bundle="${loc}" key="local.locLine.patient.page.appointments" var="all_appointments" />
+<fmt:message bundle="${loc}" key="local.locLine.patient.return" var="return_page" />
+
+	
 <!DOCTYPE html>
 <html>
 <head>
@@ -27,14 +54,24 @@
 	media="screen" />
 </head>
 <body>
+<form action="controller" method="post">
+		<input type="hidden" name="language" value="medication" /> <input
+			type="hidden" name="local" value="ru" /> <input type="submit"
+			value="${ru_button}">
+	</form>
+	<form action="controller" method="post">
+		<input type="hidden" name="language" value="medication" /> <input
+			type="hidden" name="local" value="en" /> <input type="submit"
+			value="${en_button}">
+	</form>
 <table border="1">
-	<caption>Персональные данные пациента</caption>
+	<caption>${personal}</caption>
 		<thead>
 			<tr>
-				<th>Имя пациента</th>
-				<th>Дата рождения</th>
-				<th>Место жительства</th>
-				<th>Телефон</th>
+				<th>${fio}</th>
+				<th>${birth_date}</th>
+				<th>${location}</th>
+				<th>${telephone}</th>
 			</tr>
 		</thead>
 		<tr>
@@ -47,10 +84,10 @@
 		</tr>
 	</table>
 	<table style="width: 100px">
-	<caption>Фото</caption>
+	<caption>${photo}</caption>
 		<thead>
 			<tr>
-				<th>Фото</th>
+				<th>${photo}</th>
 			</tr>
 		</thead>
 		<tr>
@@ -64,11 +101,11 @@
 		type="by.htp.entity.Medication" scope="request" />
 	<!--  Создание таблицы с назначениями -->
 	<table border="1">
-	<caption >Назначенные процедуры</caption>
+	<caption >${procedures}</caption>
 		<thead>
 			<tr>
-				<th>Процедуры</th>
-				<th>Операции с процедурами</th>
+				<th>${procedure}</th>
+				<th>${actions}</th>
 			</tr>
 		</thead>
 		<c:set var="map" value="${Medications.getProcedurs().values()} " />
@@ -85,11 +122,11 @@
 						<div class="options">
 							<select name="command">
 							
-								<option value="edit_medication">Выполненно</option>
+								<option value="edit_medication">${done}</option>
 								
 							
 							</select> <input type="hidden" name="procedure" value="${procedurs}" />
-							<input type="submit" value="Применить">
+							<input type="submit" value="${ok}">
 						</div>
 						</form>
 						</c:if>	
@@ -99,11 +136,11 @@
 	
 	<!--  Создание таблицы с лекарствами -->
 	<table border="1">
-	<caption >Назначенные лекарства</caption>
+	<caption >${medications}</caption>
 		<thead>
 				<tr>
-					<th>Лекарства</th>
-					<th>Операции с Лекарствами</th>
+					<th>${medication}</th>
+				<th>${actions_medication}</th>
 				</tr>
 		</thead>
 					<c:set var="map" value="${Medications.getMedications().values()} " />
@@ -120,10 +157,10 @@
 				<form action="controller" method="post">
 
 					<select name="command">
-						<option value="edit_medication">Выполненно</option>
+						<option value="edit_medication">${done}</option>
 						
 					</select> <input type="hidden" name="medication" value="${medications}" /> <input
-						type="submit" value="Применить">
+						type="submit" value="${ok}">
 
 				</form>
 				</c:if>
@@ -132,7 +169,7 @@
 				<th>
 					<form action="controller" method="post">
 						<input type="hidden" name="command" value="back_user_page" /> <input
-							type="submit" value="Вернутся на персональную страницу" style="height:50px; width:250px" class="b1">
+							type="submit" value="${return_page}" style="height:50px; width:250px" class="b1">
 							
 					</form>
 				</th>

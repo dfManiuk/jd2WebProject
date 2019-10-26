@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import by.htp.command.ICommand;
+import by.htp.command.SessionCommands;
 import by.htp.controller.JspPageName;
 import by.htp.entity.Patient;
 import by.htp.entity.User;
@@ -17,13 +18,18 @@ import by.htp.service.UserDataValidator;
 
 public class AddNewPatientCommand implements ICommand {
 
-	private static final String error = "Add new Patient command ERROR";
+	private final String error = "Add new Patient command ERROR";
 	
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
 		HttpSession session = request.getSession(false);
+		
+		if (request.getParameter("local") != null) {
+			session.setAttribute("local", request.getParameter("local"));	
+			request.getRequestDispatcher(JspPageName.ADD_PATIENT_PAGE).forward(request, response);
+		}
 		
 		Patient patient = new Patient();	
 		patient.setName(request.getParameter("bigName"));
@@ -40,11 +46,11 @@ public class AddNewPatientCommand implements ICommand {
 			
 			patient = patientService.registration(patient);
 			
-			patientService.addPhoto(patient.getIdPatient(), new ByteArrayInputStream(AddPhotoCommand.fotobyte));//TODO Exeption
+			patientService.addPhoto(patient.getIdPatient(), new ByteArrayInputStream(AddPhotoCommand.fotobyte));//TODO Exception
 						
 			session = request.getSession();
-			User user = (User) session.getAttribute("UserSession");
-			request.setAttribute("User", user);
+			User user = (User) session.getAttribute(SessionCommands.USER_SESSION);
+			request.setAttribute(SessionCommands.USER, user);
 					
 			request.getRequestDispatcher(JspPageName.USER_PAGE).forward(request, response);;
 

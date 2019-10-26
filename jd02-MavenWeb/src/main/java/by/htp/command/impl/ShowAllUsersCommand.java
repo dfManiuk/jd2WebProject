@@ -45,9 +45,9 @@ public class ShowAllUsersCommand implements ICommand {
 			
 			}
 		} catch (ServiceException e) {
-			// TODO Auto-generated catch block
+			// TODO 
 			e.printStackTrace();
 		}
-		return JspPageName.MAIN_PAGE;	
+		return JspPageName.ALL_USER_PAGE;	
 	}
 }

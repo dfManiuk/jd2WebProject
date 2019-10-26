@@ -19,21 +19,26 @@ import by.htp.service.ServiceProvider;
 
 public class PatientMedicationCommand implements ICommand {
 
+	private String page = JspPageName.USER_PAGE;
+	
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
-		User user = null;
 		Patient patient = null;
-		String page = null;
 		Medication medication = null;
 		byte[] imageBytes = null;
+		String passport;
 		
-		HttpSession session = request.getSession();
-		user = (User) session.getAttribute("UserSession");
+		HttpSession session = request.getSession(true);
+		User user = (User) session.getAttribute("UserSession");
 		
-		String passport = request.getParameter(RequestParameterName.NAME);
-		
+		if ((passport = request.getParameter(RequestParameterName.NAME)) == null ) {
+			passport = ((Patient) session.getAttribute("Patient")).getPassport(); 
+			String local = request.getParameter("local");
+			session.setAttribute("local", local);
+		} 
+	
 		PatientService patientService = ServiceProvider.getInstance().getPatientService();
 		
 		try {
@@ -65,9 +70,7 @@ public class PatientMedicationCommand implements ICommand {
 				return page;
 				
 			} else {
-
-			page = JspPageName.USER_PAGE;
-				
+			
 			RequestDispatcher dispatcher = request.getRequestDispatcher(page);
 			dispatcher.forward(request, response);
 			}
