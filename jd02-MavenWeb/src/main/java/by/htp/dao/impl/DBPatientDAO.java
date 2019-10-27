@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -37,7 +38,7 @@ public class DBPatientDAO implements PatientDAO {
 	@Override
 	public Patient registration(Patient newPatient) throws DAOException {
 		return newPatient;
-		// TODO Auto-generated method stub
+		// TODO Not use!!
 	}
 
 	@Override
@@ -155,15 +156,17 @@ public class DBPatientDAO implements PatientDAO {
 
 	@Override
 	public void fixing(String doctor, String patient) throws DAOException {
+		ConnectionPool cPool = ConnectionPool.getInstance();
 		DAOProvider daoProvider = DAOProvider.getInstance();
 		int idUser = daoProvider.getUserDAO().find(doctor);
-		int idPatient = 0;
-		ConnectionPool cPool = ConnectionPool.getInstance();
+		int idPatient = 0;	
+		PreparedStatement st = null;
+		Connection con = null;
 		try {
-			Connection con = cPool.takeConnection();
+			con = cPool.takeConnection();
 			String sqlStringFindid = SQLCommands.PATIENT_FIND_FROM_NAME;
 
-			PreparedStatement st = con.prepareStatement(sqlStringFindid);
+			st = con.prepareStatement(sqlStringFindid);
 			st.setString(1, patient);
 			ResultSet rs = st.executeQuery();
 
@@ -171,12 +174,19 @@ public class DBPatientDAO implements PatientDAO {
 			while (rs.next()) {
 				idPatient = rs.getInt(1);
 			}
-
+			
+			st.close();
+			try {
 			String sqlFixingString = SQLCommands.USER_HAS_PATIENT;
 			st = con.prepareStatement(sqlFixingString);
 			st.setInt(1, idUser);
 			st.setInt(2, idPatient);
 			st.executeUpdate();
+			} catch (SQLIntegrityConstraintViolationException e) {
+				logger.error(e.toString());
+				e.printStackTrace();
+				throw new DAOException(e);
+			} 		
 			cPool.closeConnection(con, st, rs);
 		} catch (SQLException e) {
 			logger.error(e.toString());
@@ -186,8 +196,11 @@ public class DBPatientDAO implements PatientDAO {
 			logger.error(e.toString());
 			e.printStackTrace();
 			throw new DAOException(e);
+		}finally {
+			cPool.closeConnection(con, st);
 		}
 	}
+
 
 	@Override
 	public void medication(Medication medication, String patient) throws DAOException {
@@ -855,8 +868,8 @@ public class DBPatientDAO implements PatientDAO {
 		Connection con = null;
 		PreparedStatement stInsert = null;
 		ResultSet rs = null;
-		String tempDiagnosis = null;
-		int idDiagnosis = 0;
+		//String tempDiagnosis = null;
+		//int idDiagnosis = 0;
 		String sqlString = SQLCommands.SELECT_DIAGNOSIS;
 		String sqlStringAdd = SQLCommands.INSERT_DIAGNOSIS;
 		
@@ -872,8 +885,8 @@ public class DBPatientDAO implements PatientDAO {
 				stInsert.executeUpdate();
 			} else {
 				if (rs.next()) {
-				idDiagnosis = rs.getInt(1);
-				tempDiagnosis = rs.getString(2);
+			//	idDiagnosis = rs.getInt(1);
+			//	tempDiagnosis = rs.getString(2);
 			}
 			}						
 		} catch (SQLException e) {

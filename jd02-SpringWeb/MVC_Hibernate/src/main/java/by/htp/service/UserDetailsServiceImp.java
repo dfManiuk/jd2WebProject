@@ -30,7 +30,7 @@ public class UserDetailsServiceImp implements UserDetailsService  {
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		
-		System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! "+username);
+
 
 		 User user = userDao.findUserByUsername(username);
 		
@@ -44,10 +44,7 @@ public class UserDetailsServiceImp implements UserDetailsService  {
 		      String[] authorities = user.getAuthorities()
 		          .stream().map(a -> a.getAuthority()).toArray(String[]::new);
 		      builder.authorities(authorities);
-		      
-			System.out.println(user.toString() + " :" + authorities.toString() );
-		
-		
+	
 		return builder.build();
 	}
 

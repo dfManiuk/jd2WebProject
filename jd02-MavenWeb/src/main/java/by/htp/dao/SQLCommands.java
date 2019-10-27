@@ -18,14 +18,14 @@ public class SQLCommands {
 	public static final String PATIENT_REGISTRATION = "INSERT INTO patient (firast_last_name, passport, birth, adress, telephone) VALUES (?,?,?,?,?);";
 	public static final String PATIENT_FIND = "SELECT * FROM patient where passport LIKE ? or patient.firast_last_name LIKE ? or patient.passport LIKE ? or patient.birth LIKE  ?  or patient.adress LIKE  ?  or patient.telephone LIKE ? and patient.out is true;";
 	public static final String PATIENT_FIND_CARDS = "SELECT * FROM hospital.card WHERE idpatient = ? ;";
-	public static final String PATIENT_FIND_FROM_NAME = "SELECT idpatient FROM hospital.patient WHERE firast_last_name LIKE  ? AND patient.out is true;";
+	public static final String PATIENT_FIND_FROM_NAME = "SELECT idpatient FROM patient WHERE firast_last_name LIKE  ? AND patient.out is true;";
 	public static final String USER_HAS_PATIENT = "INSERT INTO user_has_patient(user_iduser, patient_idpatient ) VALUES (?, ?);";
 	public static final String USER_HAS_PATIENT_UNFIX = "delete FROM user_has_patient WHERE user_iduser = ? AND patient_idpatient = ? ;";
 	public static final String USER_LOGINATION = "SELECT user.iduser, user.userName, user.userPosition, specialization.specialization, user.login, user.password FROM user LEFT JOIN specialization ON user.idspecialization = specialization.idspecialization WHERE user.password  LIKE ? AND user.login LIKE ? AND user.out is true;";
 	public static final String USER_REGISTRATION = "SELECT idspecialization FROM specialization WHERE specialization LIKE ?";
 	public static final String USER_REGISTRATION_INSERT = "INSERT INTO user (userName, userPosition, idspecialization, login, password) "
 			+ "VALUES (?,?,?,?,?)";
-	public static final String FIND_USER_FROM_NAME = "SELECT iduser FROM hospital.user WHERE userName LIKE ? AND user.out is true";
+	public static final String FIND_USER_FROM_NAME = "SELECT iduser FROM user WHERE userName LIKE ? AND user.out is true";
 	public static final String SET_MEDICATION = "UPDATE hospital.medication SET medication.procedure = ? , medication.medication = ?, medication.operation = ? WHERE medication.idpatient = ? ;";
 
 	public static final String COUNTS_OF_PATIENT = "SELECT COUNT(*) FROM hospital.patient WHERE patient.firast_last_name LIKE  ?  or patient.passport LIKE  ? or patient.birth LIKE  ?  or patient.adress LIKE  ?  or patient.telephone = ? AND patient.out is true;";
@@ -36,7 +36,7 @@ public class SQLCommands {
 	public static final String USER_EDIT_PROFILE = "UPDATE user SET userPosition = ? , login = ? ,password = ?, user.idspecialization = (select specialization.idspecialization from specialization where specialization = ? ) WHERE iduser = ? ;";
 	public static final String SPECIALIZATION_CHECK = "SELECT * FROM hospital.specialization WHERE specialization = ? ;";
 	public static final String FIND_USER_HAVE_PATIENT = "SELECT * FROM patient LEFT JOIN user_has_patient ON patient.idpatient = user_has_patient.patient_idpatient WHERE  user_has_patient.user_iduser = ? AND patient.out is true ;";
-	public static final String FIND_USER_ROLE = "SELECT userPosition FROM hospital.user WHERE userName = ? AND user.out is true;";
+	public static final String FIND_USER_ROLE = "SELECT userPosition FROM user WHERE userName = ? AND user.out is true;";
 	public static final String GET_MEDICATIONS = "SELECT * FROM hospital.medication WHERE idPatient = ? ;";
 	public static final String UPDATE_PROCEDURE = "UPDATE medication SET medication.procedure = '<CHANGE> (выполненно)' WHERE medication.idPatient = ? AND medication.idUser = ? AND medication.procedure = '<CHANGE>' ;";
 	public static final String UPDATE_MEDICATIONS = "UPDATE medication SET medication.medication = '<CHANGE> (выполненно)' WHERE medication.idPatient = ? AND medication.idUser = ? AND medication.medication = '<CHANGE>' ;";

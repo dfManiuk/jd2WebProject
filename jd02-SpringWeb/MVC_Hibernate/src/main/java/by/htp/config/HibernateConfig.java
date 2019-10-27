@@ -24,7 +24,7 @@ public class HibernateConfig {
 	
     @Bean
     public LocalSessionFactoryBean sessionFactory() { 
-    	System.out.println("!!!!!!!!!!!!!!!!!!!!!");
+
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setDataSource(dataSource());
         sessionFactory.setPackagesToScan(new String[] {"by.htp.entity"});        
@@ -34,7 +34,6 @@ public class HibernateConfig {
 
     @Bean
     public DataSource dataSource() {
-    	System.out.println("!!!!!!!!!!!!!!!!!!!!!");
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName(environment.getRequiredProperty("db.driver"));
         dataSource.setUrl(environment.getRequiredProperty("db.url"));
@@ -52,7 +51,6 @@ public class HibernateConfig {
     }
     
     private final Properties hibernateProperties() {
-    	System.out.println("!!!!!!!!!!!!!!!!!!!!!");
         Properties properties = new Properties();
         properties.put("hibernate.dialect", environment.getRequiredProperty("hibernate.dialect"));
         properties.put("hibernate.show_sql", environment.getRequiredProperty("hibernate.show_sql"));

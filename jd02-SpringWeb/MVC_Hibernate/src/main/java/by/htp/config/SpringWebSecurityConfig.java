@@ -42,7 +42,7 @@ public class SpringWebSecurityConfig extends WebSecurityConfigurerAdapter  {
     protected void configure(HttpSecurity http) throws Exception {
     	
     	String encoded=new BCryptPasswordEncoder().encode("1234");
-    	System.out.println("LLLLLLLLLLLLLLLLLLLLLL" + ": "+encoded);
+    	System.out.println("LL" + ": "+encoded);
     
     	
 

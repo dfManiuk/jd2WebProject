@@ -69,6 +69,7 @@
 
 	</table>
 	<form action="controller" method="post" >
+	<%-- <form action="../controller" method="post" > --%>
 	<table border="1">
 		<caption>${entering_new}</caption>
 		<thead>

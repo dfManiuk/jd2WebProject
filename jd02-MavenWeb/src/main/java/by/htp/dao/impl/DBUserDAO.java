@@ -220,7 +220,7 @@ public class DBUserDAO implements UserDAO {
 				doctor.setId(rs.getInt(1));
 				doctor.setName(rs.getString(2));
 				doctor.setPosition( rs.getString(3));
-				doctor.setSpecialization(rs.getString(9));
+				doctor.setSpecialization(rs.getString(10));
 		
 				doctor.setPatients(findPatientsFromUser(doctor));
 				
