@@ -13,10 +13,10 @@
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
 
- <!--  <error-page>
+ <error-page>
     <exception-type>java.lang.Exception</exception-type>
     <location>/404Page.jsp</location>
-</error-page> -->
+</error-page> 
   
   <servlet>
     <description></description>

@@ -68,7 +68,6 @@ public class LogFilter implements Filter{
 		request.getRequestDispatcher(page).forward(request, response);
 		 
 		 logger.info("LogFilter " + request.getParameter("local"));
-		 chain.doFilter(request, response);
 		}	
 	}
 		}

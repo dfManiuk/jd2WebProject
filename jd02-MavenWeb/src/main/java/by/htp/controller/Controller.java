@@ -55,11 +55,11 @@ public class Controller extends HttpServlet {
 			
 			ICommand command = CommandHelper.getInstance().getCommand(commandName);
 			command.execute(request, response);
-		} else if ((commandName = request.getParameter(RequestParameterName.LANGUAGE))  != null && commandName != RequestParameterName.LANGUAGE_CHANGE){
+		} else if ((commandName = request.getParameter(RequestParameterName.LANGUAGE))  != null & 
+				!RequestParameterName.LANGUAGE_CHANGE.equals(commandName)){
 			ICommand command = CommandHelper.getInstance().getCommand(commandName);
 			command.execute(request, response);
-
-		} else {
+		} else if (!RequestParameterName.LANGUAGE_CHANGE.equals(commandName)) {
 			DiskFileItemFactory factory = new DiskFileItemFactory();
 			ServletContext servletContext = this.getServletConfig().getServletContext();
 			File repository = (File) servletContext.getAttribute("javax.servlet.context.tempdir");
@@ -67,6 +67,7 @@ public class Controller extends HttpServlet {
 			ServletFileUpload upload = new ServletFileUpload(factory);
 			byte[] data = null;
 			try {
+				@SuppressWarnings("unchecked")
 				List<FileItem> items = upload.parseRequest(request);
 				for (FileItem fileItem : items) {
 					if ((commandName = fileItem.getFieldName()).equals(RequestParameterName.COMMAND_FILE)) {
@@ -87,7 +88,7 @@ public class Controller extends HttpServlet {
 			} catch (FileUploadException e) {
 				logger.error(e.toString());
 				e.printStackTrace();
-			}
+			} 
 		}
 	}
 }
